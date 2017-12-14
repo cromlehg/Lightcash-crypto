@@ -285,6 +285,8 @@ contract CommonTokenEvent is Ownable {
   uint public hardcap;
   
   uint public invested;
+  
+  uint public refererPercent;
 
   address public directMintAgent;
   
@@ -300,6 +302,25 @@ contract CommonTokenEvent is Ownable {
   modifier onlyDirectMintAgentOrOwner() {
     require(directMintAgent == msg.sender || owner == msg.sender);
     _;
+  }
+
+  function sendRefererTokens(uint tokens) internal {
+    if(msg.data.length == 20) {
+      address referer = bytesToAddres(bytes(msg.data));
+      require(referer != address(token) && referer != msg.sender);
+      uint refererTokens = tokens.mul(refererPercent).div(PERCENT_RATE);
+      mintAndSendTokens(referer, refererTokens);
+    }
+  }
+
+  function bytesToAddres(bytes source) internal pure returns(address) {
+    uint result;
+    uint mul = 1;
+    for(uint i = 20; i > 0; i--) {
+      result += uint8(source[i-1])*mul;
+      mul = mul*256;
+    }
+    return address(result);
   }
 
   function setHardcap(uint newHardcap) public onlyOwner { 
@@ -343,9 +364,16 @@ contract CommonTokenEvent is Ownable {
     minted = minted.add(amount);
   }
 
-  function calculateAndTransferTokens(address to, uint investedInWei) internal {
-    mintAndSendTokens(to, calculateTokens(investedInWei));
+  function calculateAndTransferTokens(address to, uint investedInWei) internal returns(uint) {
+    uint tokens = calculateTokens(investedInWei);
+    mintAndSendTokens(to, tokens);
     invested = invested.add(investedInWei);
+    return tokens;
+  }
+
+  function calculateAndTransferTokensWithReferer(address to, uint investedInWei) internal {
+    uint tokens = calculateAndTransferTokens(to, investedInWei);
+    sendRefererTokens(tokens);
   }
   
   function calculateTokens(uint investedInWei) public view returns(uint);
@@ -499,11 +527,11 @@ contract PreTGE is CommonTokenEvent {
 
   function createTokens() public payable canMint {
     balances[msg.sender] = balances[msg.sender].add(msg.value);
-    calculateAndTransferTokens(msg.sender, msg.value);
+    calculateAndTransferTokensWithReferer(msg.sender, msg.value);
   } 
 
-  function calculateAndTransferTokens(address to, uint investorWei) internal {
-    super.calculateAndTransferTokens(to, investorWei);
+  function calculateAndTransferTokensWithReferer(address to, uint investorWei) internal {
+    super.calculateAndTransferTokensWithReferer(to, investorWei);
     if(!softcapAchieved && minted >= softcap) {
       softcapAchieved = true;      
       SoftcapReached();
@@ -549,7 +577,7 @@ contract TGE is StagedTokenEvent {
 
   function createTokens() public payable canMint {
     wallet.transfer(msg.value);
-    calculateAndTransferTokens(msg.sender, msg.value);
+    calculateAndTransferTokensWithReferer(msg.sender, msg.value);
   } 
 
 }
