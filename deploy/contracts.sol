@@ -331,6 +331,10 @@ contract CommonTokenEvent is Ownable {
     token = LightcashCryptoToken(newToken);
   }
 
+  function setRefererPercent(uint newRefererPercent) public onlyOwner { 
+    refererPercent = newRefererPercent;
+  }
+
   function setStart(uint newStart) public onlyOwner {
     start = newStart;
   }
@@ -603,7 +607,9 @@ contract Deployer is Ownable {
     preTGE.setHardcap(37500000000000000000000000);
     preTGE.setStart(1515416400);
     preTGE.setPeriod(7);
+    preTGE.setPeriod(7);
     preTGE.setWallet(0x25803D4325EbC33CCF779FF16a23d6CF9543e559);
+    preTGE.setRefererPercent(5);
 
     tge = new TGE();
     tge.setPrice(1000000000000000000000);
@@ -616,6 +622,7 @@ contract Deployer is Ownable {
     tge.addStage(10, 20);
     tge.addStage(10, 10);
     tge.addStage(10, 0);
+    tge.setRefererPercent(5);
 
     preTGE.setToken(token);   
     tge.setToken(token);   
