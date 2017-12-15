@@ -1,15 +1,11 @@
-<p align="center">
-  <h1>Lightcash crypto</h1>
-  <img src="./logo.png">
-</p>
-
+![Lightcash crypto](logo.png "Lightcash crypto")
 
 * _Standart_        : ERC20
 * _Name_            : Lightcash crypto
 * _Ticket_          : LCC
 * _Decimals_        : 18
 * _Emission_        : Mintable
-* _Crowdsales_      : 2
+* _Token events_    : 2
 * _Fiat dependency_ : No
 * _Tokens locked_   : Yes
 
@@ -32,7 +28,7 @@ After crowdsale contract manager must call finishMinting.
 
 ### How to invest
 To purchase tokens investor should send ETH (more than minimum 0.1 EHT) to corresponding crowdsale contract.
-Recommended GAS: 200 000 , GAS PRICE - 60 Gwei.
+Recommended GAS: 200 000 , GAS PRICE - 30 Gwei.
 
 ### Wallets with ERC20 support
 1. MyEtherWallet - https://www.myetherwallet.com/
@@ -47,7 +43,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 
 * _Extra tokens_               : 5% 
 * _Extra tokens lock period_   : 100 days after TGE  
-* _Extra tokens wallet_        :
+* _Extra tokens wallet_        : 0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B
 
 #### Links
 * _Token_ - 
@@ -61,18 +57,18 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _Hardcap_                    : 37 500 000 LCC
 * _Start_                      : Mon, 08 Jan 2018 13:00:00 GMT
 * _Period_                     : 7 days
-* _Contract manager_           : 
+* _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          : 
-* _ETH Wallet_                 : 
+* _ETH Wallet_                 : 0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0
 
 #### Token General Event
 * _Base price_                 : 1 ETH = 1000 LCC
 * _Minimal insvested limit_    : 0.1 ETH
 * _Hardcap_                    : 105 000 000 LCC
 * _Start_                      : Mon, 15 Jan 2018 14:00:00 GMT
-* _Contract manager_           : 
+* _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          :  
-* _ETH Wallet_                 : 
+* _ETH Wallet_                 : 0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f
 
 _Milestones_
 1. 10 days                     : discount 20%

@@ -212,6 +212,12 @@ contract Ownable {
 
 }
 
+contract ReceivingContractCallabck {
+
+  function tokenFallback(address _from, uint _value) public;
+
+}
+
 contract LightcashCryptoToken is StandardToken, Ownable {	
 
   event Mint(address indexed to, uint256 amount);
@@ -228,17 +234,28 @@ contract LightcashCryptoToken is StandardToken, Ownable {
  
   address public saleAgent;
 
+  mapping(address => uint) public locked;
+
+  mapping(address => bool) public authorized;
+  
+  mapping(address => bool)  public registeredCallbacks;
+
   modifier notLocked() {
-    require(msg.sender == owner || msg.sender == saleAgent || mintingFinished);
+    require(msg.sender == owner || msg.sender == saleAgent || (mintingFinished && now >= locked[msg.sender]));
     _;
   }
 
+  function lock(address to, uint periodInDays) public {
+    require((msg.sender == saleAgent || msg.sender == owner) && !mintingFinished);
+    locked[to] = now + periodInDays * 1 days;
+  }
+
   function transfer(address _to, uint256 _value) public notLocked returns (bool) {
-    return super.transfer(_to, _value);
+    return processCallback(super.transfer(_to, _value), msg.sender, _to, _value);
   }
 
   function transferFrom(address from, address to, uint256 value) public notLocked returns (bool) {
-    return super.transferFrom(from, to, value);
+    return processCallback(super.transferFrom(from, to, value), from, to, value);
   }
 
   function setSaleAgent(address newSaleAgent) public {
@@ -264,6 +281,22 @@ contract LightcashCryptoToken is StandardToken, Ownable {
     return true;
   }
 
+  function registerCallback(address callback) public onlyOwner {
+    registeredCallbacks[callback] = true;
+  }
+
+  function deregisterCallback(address callback) public onlyOwner {
+    registeredCallbacks[callback] = false;
+  }
+
+  function processCallback(bool result, address from, address to, uint value) internal returns(bool) {
+    if(result && registeredCallbacks[to]) {
+      ReceivingContractCallabck targetCallback = ReceivingContractCallabck(to);
+      targetCallback.tokenFallback(from, value);
+    }
+    return result;
+  }
+  
 }
 
 contract CommonTokenEvent is Ownable {
@@ -559,6 +592,8 @@ contract TGE is StagedTokenEvent {
   address public extraTokensWallet;
 
   uint public extraTokensPercent;
+
+  uint public extraTokensLockPeriod;
   
   function setExtraTokensWallet(address newExtraTokensWallet) public onlyOwner {
     extraTokensWallet = newExtraTokensWallet;
@@ -566,6 +601,10 @@ contract TGE is StagedTokenEvent {
 
   function setExtraTokensPercent(uint newExtraTokensPercent) public onlyOwner {
     extraTokensPercent = newExtraTokensPercent;
+  }
+
+  function setExtraTokensLockPeriod(uint newExtraTokensLockPeriod) public onlyOwner {
+    extraTokensLockPeriod = newExtraTokensLockPeriod;
   }
 
   function calculateTokens(uint investedInWei) public view returns(uint) {
@@ -576,6 +615,7 @@ contract TGE is StagedTokenEvent {
     uint allTokens = minted.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
     uint extraTokens = allTokens.mul(extraTokensPercent).div(PERCENT_RATE);
     mintAndSendTokens(extraTokensWallet, extraTokens);
+    token.lock(extraTokensWallet, extraTokensLockPeriod);
     token.finishMinting();
   }
 
@@ -594,10 +634,7 @@ contract Deployer is Ownable {
 
   TGE public tge;
 
-  function Deployer() public {
-  }
-
-  function deploy() public {
+  function deploy() public onlyOwner {
     token = new LightcashCryptoToken();
 
     preTGE = new PreTGE();
@@ -608,7 +645,7 @@ contract Deployer is Ownable {
     preTGE.setStart(1515416400);
     preTGE.setPeriod(7);
     preTGE.setPeriod(7);
-    preTGE.setWallet(0x25803D4325EbC33CCF779FF16a23d6CF9543e559);
+    preTGE.setWallet(0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0);
     preTGE.setRefererPercent(5);
 
     tge = new TGE();
@@ -616,22 +653,24 @@ contract Deployer is Ownable {
     tge.setMinPurchaseLimit(100000000000000000);
     tge.setHardcap(105000000000000000000000000);
     tge.setStart(1516024800);
-    tge.setWallet(0x25803D4325EbC33CCF779FF16a23d6CF9543e559);
-    tge.setExtraTokensWallet(0x25803D4325EbC33CCF779FF16a23d6CF9543e559);
+    tge.setWallet(0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f);
+    tge.setExtraTokensWallet(0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B);
     tge.setExtraTokensPercent(5);
     tge.addStage(10, 20);
     tge.addStage(10, 10);
     tge.addStage(10, 0);
     tge.setRefererPercent(5);
+    tge.setExtraTokensLockPeriod(100);
 
     preTGE.setToken(token);   
     tge.setToken(token);   
     preTGE.setNextSaleAgent(tge);   
     token.setSaleAgent(preTGE);  
  
-    token.transferOwnership(owner);
-    preTGE.transferOwnership(owner);
-    tge.transferOwnership(owner);
+    address newOnwer = 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0;
+    token.transferOwnership(newOnwer);
+    preTGE.transferOwnership(newOnwer);
+    tge.transferOwnership(newOnwer);
   }
 
 }
