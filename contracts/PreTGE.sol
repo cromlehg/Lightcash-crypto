@@ -21,8 +21,8 @@ contract PreTGE is CommonTokenEvent {
 
   event Refunded(address indexed beneficiary, uint256 weiAmount);
 
-  function setPeriod(uint newPrice) public onlyOwner {
-    price = newPrice;
+  function setPeriod(uint newPeriod) public onlyOwner {
+    period = newPeriod;
   }
 
   function calculateTokens(uint investedInWei) public view returns(uint) {
