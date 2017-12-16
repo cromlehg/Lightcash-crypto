@@ -83,7 +83,7 @@ contract CommonTokenEvent is Ownable {
   }
 
   function lastSaleDate() public view returns(uint) {
-    return start + period;
+    return start + period * 1 days;
   }
 
   function setMinPurchaseLimit(uint newMinPurchaseLimit) public onlyOwner {
