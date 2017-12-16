@@ -24,7 +24,6 @@ contract Deployer is Ownable {
     preTGE.setHardcap(37500000000000000000000000);
     preTGE.setStart(1515416400);
     preTGE.setPeriod(7);
-    preTGE.setPeriod(7);
     preTGE.setWallet(0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0);
     preTGE.setRefererPercent(5);
 
