@@ -1,27 +1,58 @@
 pragma solidity ^0.4.18;
 
-/**
- * @title ERC20Basic
- * @dev Simpler version of ERC20 interface
- * @dev see https://github.com/ethereum/EIPs/issues/179
- */
-contract ERC20Basic {
-  uint256 public totalSupply;
-  function balanceOf(address who) public view returns (uint256);
-  function transfer(address to, uint256 value) public returns (bool);
-  event Transfer(address indexed from, address indexed to, uint256 value);
+// File: contracts/ReceivingContractCallback.sol
+
+contract ReceivingContractCallback {
+
+  function tokenFallback(address _from, uint _value) public;
+
 }
 
+// File: contracts/ownership/Ownable.sol
+
 /**
- * @title ERC20 interface
- * @dev see https://github.com/ethereum/EIPs/issues/20
+ * @title Ownable
+ * @dev The Ownable contract has an owner address, and provides basic authorization control
+ * functions, this simplifies the implementation of "user permissions".
  */
-contract ERC20 is ERC20Basic {
-  function allowance(address owner, address spender) public view returns (uint256);
-  function transferFrom(address from, address to, uint256 value) public returns (bool);
-  function approve(address spender, uint256 value) public returns (bool);
-  event Approval(address indexed owner, address indexed spender, uint256 value);
+contract Ownable {
+  address public owner;
+
+
+  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+
+  /**
+   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+   * account.
+   */
+  function Ownable() public {
+    owner = msg.sender;
+  }
+
+
+  /**
+   * @dev Throws if called by any account other than the owner.
+   */
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+
+
+  /**
+   * @dev Allows the current owner to transfer control of the contract to a newOwner.
+   * @param newOwner The address to transfer ownership to.
+   */
+  function transferOwnership(address newOwner) public onlyOwner {
+    require(newOwner != address(0));
+    OwnershipTransferred(owner, newOwner);
+    owner = newOwner;
+  }
+
 }
+
+// File: contracts/math/SafeMath.sol
 
 /**
  * @title SafeMath
@@ -29,8 +60,11 @@ contract ERC20 is ERC20Basic {
  */
 library SafeMath {
   function mul(uint256 a, uint256 b) internal pure returns (uint256) {
+    if (a == 0) {
+      return 0;
+    }
     uint256 c = a * b;
-    assert(a == 0 || c / a == b);
+    assert(c / a == b);
     return c;
   }
 
@@ -52,6 +86,22 @@ library SafeMath {
     return c;
   }
 }
+
+// File: contracts/token/ERC20Basic.sol
+
+/**
+ * @title ERC20Basic
+ * @dev Simpler version of ERC20 interface
+ * @dev see https://github.com/ethereum/EIPs/issues/179
+ */
+contract ERC20Basic {
+  uint256 public totalSupply;
+  function balanceOf(address who) public view returns (uint256);
+  function transfer(address to, uint256 value) public returns (bool);
+  event Transfer(address indexed from, address indexed to, uint256 value);
+}
+
+// File: contracts/token/BasicToken.sol
 
 /**
  * @title Basic token
@@ -88,6 +138,21 @@ contract BasicToken is ERC20Basic {
   }
 
 }
+
+// File: contracts/token/ERC20.sol
+
+/**
+ * @title ERC20 interface
+ * @dev see https://github.com/ethereum/EIPs/issues/20
+ */
+contract ERC20 is ERC20Basic {
+  function allowance(address owner, address spender) public view returns (uint256);
+  function transferFrom(address from, address to, uint256 value) public returns (bool);
+  function approve(address spender, uint256 value) public returns (bool);
+  event Approval(address indexed owner, address indexed spender, uint256 value);
+}
+
+// File: contracts/token/StandardToken.sol
 
 /**
  * @title Standard ERC20 token
@@ -170,74 +235,28 @@ contract StandardToken is ERC20, BasicToken {
 
 }
 
-/**
- * @title Ownable
- * @dev The Ownable contract has an owner address, and provides basic authorization control
- * functions, this simplifies the implementation of "user permissions".
- */
-contract Ownable {
-  address public owner;
+// File: contracts/LightcashCryptoToken.sol
 
-
-  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-
-  /**
-   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
-   * account.
-   */
-  function Ownable() public {
-    owner = msg.sender;
-  }
-
-
-  /**
-   * @dev Throws if called by any account other than the owner.
-   */
-  modifier onlyOwner() {
-    require(msg.sender == owner);
-    _;
-  }
-
-
-  /**
-   * @dev Allows the current owner to transfer control of the contract to a newOwner.
-   * @param newOwner The address to transfer ownership to.
-   */
-  function transferOwnership(address newOwner) onlyOwner public {
-    require(newOwner != address(0));
-    OwnershipTransferred(owner, newOwner);
-    owner = newOwner;
-  }
-
-}
-
-contract ReceivingContractCallabck {
-
-  function tokenFallback(address _from, uint _value) public;
-
-}
-
-contract LightcashCryptoToken is StandardToken, Ownable {	
+contract LightcashCryptoToken is StandardToken, Ownable {
 
   event Mint(address indexed to, uint256 amount);
 
   event MintFinished();
-    
-  string public constant name = "Lightcash crypto";
-   
-  string public constant symbol = "LCC";
-    
+
+  string public constant name = 'Lightcash crypto';
+
+  string public constant symbol = 'LCC';
+
   uint32 public constant decimals = 18;
 
   bool public mintingFinished = false;
- 
+
   address public saleAgent;
 
   mapping(address => uint) public locked;
 
   mapping(address => bool) public authorized;
-  
+
   mapping(address => bool)  public registeredCallbacks;
 
   modifier notLocked() {
@@ -290,14 +309,16 @@ contract LightcashCryptoToken is StandardToken, Ownable {
   }
 
   function processCallback(bool result, address from, address to, uint value) internal returns(bool) {
-    if(result && registeredCallbacks[to]) {
-      ReceivingContractCallabck targetCallback = ReceivingContractCallabck(to);
+    if (result && registeredCallbacks[to]) {
+      ReceivingContractCallback targetCallback = ReceivingContractCallback(to);
       targetCallback.tokenFallback(from, value);
     }
     return result;
   }
-  
+
 }
+
+// File: contracts/CommonTokenEvent.sol
 
 contract CommonTokenEvent is Ownable {
 
@@ -316,13 +337,13 @@ contract CommonTokenEvent is Ownable {
   uint public minted;
 
   uint public hardcap;
-  
+
   uint public invested;
-  
+
   uint public refererPercent;
 
   address public directMintAgent;
-  
+
   address public wallet;
 
   LightcashCryptoToken public token;
@@ -338,7 +359,7 @@ contract CommonTokenEvent is Ownable {
   }
 
   function sendRefererTokens(uint tokens) internal {
-    if(msg.data.length == 20) {
+    if (msg.data.length == 20) {
       address referer = bytesToAddres(bytes(msg.data));
       require(referer != address(token) && referer != msg.sender);
       uint refererTokens = tokens.mul(refererPercent).div(PERCENT_RATE);
@@ -349,22 +370,22 @@ contract CommonTokenEvent is Ownable {
   function bytesToAddres(bytes source) internal pure returns(address) {
     uint result;
     uint mul = 1;
-    for(uint i = 20; i > 0; i--) {
+    for (uint i = 20; i > 0; i--) {
       result += uint8(source[i-1])*mul;
       mul = mul*256;
     }
     return address(result);
   }
 
-  function setHardcap(uint newHardcap) public onlyOwner { 
+  function setHardcap(uint newHardcap) public onlyOwner {
     hardcap = newHardcap;
   }
 
-  function setToken(address newToken) public onlyOwner { 
+  function setToken(address newToken) public onlyOwner {
     token = LightcashCryptoToken(newToken);
   }
 
-  function setRefererPercent(uint newRefererPercent) public onlyOwner { 
+  function setRefererPercent(uint newRefererPercent) public onlyOwner {
     refererPercent = newRefererPercent;
   }
 
@@ -384,7 +405,7 @@ contract CommonTokenEvent is Ownable {
     minPurchaseLimit = newMinPurchaseLimit;
   }
 
-  function setWallet(address newWallet) public onlyOwner { 
+  function setWallet(address newWallet) public onlyOwner {
     wallet = newWallet;
   }
 
@@ -412,7 +433,7 @@ contract CommonTokenEvent is Ownable {
     uint tokens = calculateAndTransferTokens(to, investedInWei);
     sendRefererTokens(tokens);
   }
-  
+
   function calculateTokens(uint investedInWei) public view returns(uint);
 
   function createTokens() public payable;
@@ -427,6 +448,82 @@ contract CommonTokenEvent is Ownable {
   }
 
 }
+
+// File: contracts/PreTGE.sol
+
+contract PreTGE is CommonTokenEvent {
+
+  uint public softcap;
+
+  bool public refundOn;
+
+  bool public softcapAchieved;
+
+  address public nextSaleAgent;
+
+  mapping (address => uint) public balances;
+
+  event RefundsEnabled();
+
+  event SoftcapReached();
+
+  event Refunded(address indexed beneficiary, uint256 weiAmount);
+
+  function setPeriod(uint newPeriod) public onlyOwner {
+    period = newPeriod;
+  }
+
+  function calculateTokens(uint investedInWei) public view returns(uint) {
+    return investedInWei.mul(price).div(1 ether);
+  }
+
+  function setNextSaleAgent(address newNextSaleAgent) public onlyOwner {
+    nextSaleAgent = newNextSaleAgent;
+  }
+
+  function setSoftcap(uint newSoftcap) public onlyOwner {
+    softcap = newSoftcap;
+  }
+
+  function refund() public {
+    require(now > start && refundOn && balances[msg.sender] > 0);
+    uint value = balances[msg.sender];
+    balances[msg.sender] = 0;
+    msg.sender.transfer(value);
+    Refunded(msg.sender, value);
+  }
+
+  function widthraw() public {
+    require(softcapAchieved);
+    wallet.transfer(this.balance);
+  }
+
+  function createTokens() public payable canMint {
+    balances[msg.sender] = balances[msg.sender].add(msg.value);
+    calculateAndTransferTokensWithReferer(msg.sender, msg.value);
+  }
+
+  function calculateAndTransferTokensWithReferer(address to, uint investorWei) internal {
+    super.calculateAndTransferTokensWithReferer(to, investorWei);
+    if (!softcapAchieved && minted >= softcap) {
+      softcapAchieved = true;
+      SoftcapReached();
+    }
+  }
+
+  function finish() public onlyOwner {
+    if (!softcapAchieved) {
+      refundOn = true;
+      RefundsEnabled();
+    } else {
+      widthraw();
+      token.setSaleAgent(nextSaleAgent);
+    }
+  }
+
+}
+
+// File: contracts/StagedTokenEvent.sol
 
 contract StagedTokenEvent is CommonTokenEvent {
 
@@ -452,7 +549,7 @@ contract StagedTokenEvent is CommonTokenEvent {
   }
 
   function removeStage(uint8 number) public onlyOwner {
-    require(number >=0 && number < stages.length);
+    require(number >= 0 && number < stages.length);
 
     Stage storage stage = stages[number];
     period = period.sub(stage.period);
@@ -471,12 +568,12 @@ contract StagedTokenEvent is CommonTokenEvent {
 
     Stage storage stage = stages[number];
 
-    period = period.sub(stage.period);    
+    period = period.sub(stage.period);
 
     stage.period = period;
     stage.discount = discount;
 
-    period = period.add(period);    
+    period = period.add(period);
   }
 
   function insertStage(uint8 numberAfter, uint period, uint discount) public onlyOwner {
@@ -515,77 +612,7 @@ contract StagedTokenEvent is CommonTokenEvent {
 
 }
 
-contract PreTGE is CommonTokenEvent {
-
-  uint public softcap;
-  
-  bool public refundOn;
-
-  bool public softcapAchieved;
-
-  address public nextSaleAgent;
-
-  mapping (address => uint) public balances;
-
-  event RefundsEnabled();
-
-  event SoftcapReached();
-
-  event Refunded(address indexed beneficiary, uint256 weiAmount);
-
-  function setPeriod(uint newPrice) public onlyOwner {
-    price = newPrice;
-  }
-
-  function calculateTokens(uint investedInWei) public view returns(uint) {
-    return investedInWei.mul(price).div(1 ether);
-  }
-
-  function setNextSaleAgent(address newNextSaleAgent) public onlyOwner {
-    nextSaleAgent = newNextSaleAgent;
-  }
-
-  function setSoftcap(uint newSoftcap) public onlyOwner {
-    softcap = newSoftcap;
-  }
-
-  function refund() public {
-    require(now > start && refundOn && balances[msg.sender] > 0);
-    uint value = balances[msg.sender];
-    balances[msg.sender] = 0;
-    msg.sender.transfer(value);
-    Refunded(msg.sender, value);
-  } 
-
-  function widthraw() public {
-    require(softcapAchieved);
-    wallet.transfer(this.balance);
-  } 
-
-  function createTokens() public payable canMint {
-    balances[msg.sender] = balances[msg.sender].add(msg.value);
-    calculateAndTransferTokensWithReferer(msg.sender, msg.value);
-  } 
-
-  function calculateAndTransferTokensWithReferer(address to, uint investorWei) internal {
-    super.calculateAndTransferTokensWithReferer(to, investorWei);
-    if(!softcapAchieved && minted >= softcap) {
-      softcapAchieved = true;      
-      SoftcapReached();
-    }
-  }
-
-  function finish() public onlyOwner {
-    if(!softcapAchieved) {
-      refundOn = true;      
-      RefundsEnabled();
-    } else {
-      widthraw();
-      token.setSaleAgent(nextSaleAgent);
-    }    
-  }
-
-}
+// File: contracts/TGE.sol
 
 contract TGE is StagedTokenEvent {
 
@@ -594,7 +621,7 @@ contract TGE is StagedTokenEvent {
   uint public extraTokensPercent;
 
   uint public extraTokensLockPeriod;
-  
+
   function setExtraTokensWallet(address newExtraTokensWallet) public onlyOwner {
     extraTokensWallet = newExtraTokensWallet;
   }
@@ -622,14 +649,16 @@ contract TGE is StagedTokenEvent {
   function createTokens() public payable canMint {
     wallet.transfer(msg.value);
     calculateAndTransferTokensWithReferer(msg.sender, msg.value);
-  } 
+  }
 
 }
+
+// File: contracts/Deployer.sol
 
 contract Deployer is Ownable {
 
   LightcashCryptoToken public token;
- 
+
   PreTGE public preTGE;
 
   TGE public tge;
@@ -643,7 +672,6 @@ contract Deployer is Ownable {
     preTGE.setSoftcap(7142857000000000000000000);
     preTGE.setHardcap(37500000000000000000000000);
     preTGE.setStart(1515416400);
-    preTGE.setPeriod(7);
     preTGE.setPeriod(7);
     preTGE.setWallet(0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0);
     preTGE.setRefererPercent(5);
@@ -662,11 +690,11 @@ contract Deployer is Ownable {
     tge.setRefererPercent(5);
     tge.setExtraTokensLockPeriod(100);
 
-    preTGE.setToken(token);   
-    tge.setToken(token);   
-    preTGE.setNextSaleAgent(tge);   
-    token.setSaleAgent(preTGE);  
- 
+    preTGE.setToken(token);
+    tge.setToken(token);
+    preTGE.setNextSaleAgent(tge);
+    token.setSaleAgent(preTGE);
+
     address newOnwer = 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0;
     token.transferOwnership(newOnwer);
     preTGE.transferOwnership(newOnwer);
@@ -674,5 +702,3 @@ contract Deployer is Ownable {
   }
 
 }
-
-
