@@ -9,6 +9,14 @@
 * _Fiat dependency_ : No
 * _Tokens locked_   : Yes
 
+## Social links
+### Facebook - https://www.facebook.com/Lightcash-Blockchain-System-Corp-186597301891722
+### Twitter - https://twitter.com/Lightcash_token
+### Reddit - https://www.reddit.com/user/Lightcash_blockchain
+### Telegram - http://t.me/lightcashvwallet
+### Medium - https://medium.com/@mail_58026
+### Instagram - https://www.instagram.com/lightcash_wallet/
+
 ## Smart-contracts description
 
 Contract mint bounty, advisors and founders tokens after each stage finished. 
