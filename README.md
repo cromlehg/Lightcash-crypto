@@ -99,7 +99,7 @@ _Milestones_
 
 #### Purchasers
 * 0.1 Ether => 125 tokens + 6.25 tokens to referrer, gas = 176557
-https://ropsten.etherscan.io/tx/0x04adee7297d61608d64855f285af204d8190b7866835257361bb8b0e9a222d8a* Rejected refund during the presale, gas = 22290
+https://ropsten.etherscan.io/tx/0x04adee7297d61608d64855f285af204d8190b7866835257361bb8b0e9a222d8a
 * Rejected purchase when purchaser try to set himself as referrer, gas = 62892
 https://ropsten.etherscan.io/tx/0x696a2e4443c3c2160ad6b45c242ccfc44616c0852d17cdf9c761a71689165c89
 * Rejected purchase after the end of the presale, gas = 31487
