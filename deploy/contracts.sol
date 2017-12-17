@@ -542,10 +542,10 @@ contract StagedTokenEvent is CommonTokenEvent {
     return stages.length;
   }
 
-  function addStage(uint period, uint discount) public onlyOwner {
-    require(period > 0);
-    stages.push(Stage(period, discount));
-    period = period.add(period);
+  function addStage(uint stagePeriod, uint discount) public onlyOwner {
+    require(stagePeriod > 0);
+    stages.push(Stage(stagePeriod, discount));
+    period = period.add(stagePeriod);
   }
 
   function removeStage(uint8 number) public onlyOwner {
@@ -563,24 +563,24 @@ contract StagedTokenEvent is CommonTokenEvent {
     stages.length--;
   }
 
-  function changeStage(uint8 number, uint period, uint discount) public onlyOwner {
+  function changeStage(uint8 number, uint stagePeriod, uint discount) public onlyOwner {
     require(number >= 0 && number < stages.length);
 
     Stage storage stage = stages[number];
 
     period = period.sub(stage.period);
 
-    stage.period = period;
+    stage.period = stagePeriod;
     stage.discount = discount;
 
-    period = period.add(period);
+    period = period.add(stagePeriod);
   }
 
-  function insertStage(uint8 numberAfter, uint period, uint discount) public onlyOwner {
+  function insertStage(uint8 numberAfter, uint stagePeriod, uint discount) public onlyOwner {
     require(numberAfter < stages.length);
 
 
-    period = period.add(period);
+    period = period.add(stagePeriod);
 
     stages.length++;
 
