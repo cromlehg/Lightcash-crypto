@@ -12,13 +12,64 @@ const should = require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should()
 
-const Token = artifacts.require('TaskFairToken')
+const Token = artifacts.require('LightcashCryptoToken')
 
 const Mainsale = artifacts.require('TGE')
 
 const Presale = artifacts.require('PreTGE')
 
 contract('Crowdsale', function(wallets) {
+
+  const owner = wallets[0]
+
+  const extraTokensWallet = "0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B";
+
+  const presaleETHWallet = "0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0";
+
+  const mainsaleETHWallet = "0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f";
+
+  const summaryTokensK = extraTokensK
+
+  const presaleStart = 1515416400;
+
+  const mainsaleStart = 1516024800;
+
+  const basePresalePrice = ether(1250)
+
+  const baseMainsalePrice = ether(1000)
+
+  const softcap = new BigNumber(75000000000000000000000)
+
+  const softcapInETH = new BigNumber(softcap).div(basePresalePrice).mul(ether(1))
+
+  const day = 60 * 60 * 24
+
+  const week = 7*day
+
+  const extraTokensPercent = new BigNumber(5)
+
+  const PERCENT_RATE = new BigNumber(100)
+
+  const presalePeriod = 7
+
+  const extraTokensK = extraTokensPercent.div(PERCENT_RATE)
+
+  const defInvestor = wallets[1]
+
+  const minInvestedPresale = ether(0.01)
+
+  const minInvestedMainsale = ether(0.01)
+ 
+  const extInvestorPresale = wallets[2]
+
+  const transferredK = new BigNumber(0.5)
+
+  const presaleInvestorsStartIndex = 3
+
+  const mainsaleInvestorsStartIndex = 10
+
+  const defValue = ether(3)
+
 
   before(async function() {
     await advanceBlock()
@@ -28,183 +79,86 @@ contract('Crowdsale', function(wallets) {
     this.token = await Token.new()
     this.presale = await Presale.new()
     this.mainsale = await Mainsale.new()
+
+    await this.presale.setPrice(basePresalePrice);
+    await this.presale.setMinPurchaseLimit(minInvestedPresale);
+    await this.presale.setSoftcap(softcap);
+    await this.presale.setHardcap(37500000000000000000000000);
+    await this.presale.setStart(presaleStart);
+    await this.presale.setPeriod(presalePeriod);
+    await this.presale.setWallet(presaleETHWallet);
+    await this.presale.setRefererPercent(5);
+
+    await this.mainsale.setPrice(baseMainsalePrice);
+    await this.mainsale.setMinPurchaseLimit(minInvestedMainsale);
+    await this.mainsale.setHardcap(105000000000000000000000000);
+    await this.mainsale.setStart(mainsaleStart);
+    await this.mainsale.setWallet(mainsaleETHWallet);
+    await this.mainsale.setExtraTokensWallet(extraTokensWallet);
+    await this.mainsale.setExtraTokensPercent(extraTokensPercent);
+    await this.mainsale.addStage(10, 20);
+    await this.mainsale.addStage(10, 10);
+    await this.mainsale.addStage(10, 0);
+    await this.mainsale.setRefererPercent(5);
+    await this.mainsale.setExtraTokensLockPeriod(100);
+
     await this.token.setSaleAgent(this.presale.address)
     await this.presale.setToken(this.token.address)
     await this.mainsale.setToken(this.token.address)
     await this.presale.setNextSaleAgent(this.mainsale.address)
+    await this.token.transferOwnership(owner)
+    await this.presale.transferOwnership(owner)
+    await this.mainsale.transferOwnership(owner)
   })	 
   
   it('Integration test', async function () {
 
-    const owner = wallets[0]
-
-    const defInvestor = wallets[1]
-
-    const minInvestedPresale = ether(1)
-
-    const minInvestedMainsale = ether(0.1)
- 
-    const extInvestorPresale = wallets[2]
-
-    const transferredK = new BigNumber(0.5)
-
-    var presaleInvestorsStartIndex = 3
-
-    var mainsaleInvestorsStartIndex = 10
-
-    const defValue = ether(3)
-
-
-    var masterWallet = "0xb8600b335332724df5108fc0595002409c2adbc6"
-
-    var secWallet = "0xc56b0d5bbc2bf9b760ebd797dacd3a683cb8498f"
-
-    var devWallet = "0xc56b0d5bbc2bf9b760ebd797dacd3a683cb8498f"
-
-
-    var devTokensWallet = "0x54a67f1507deb1bfc58ba3ffa94b59fc50eb74bc"
-
-    var secTokensWallet = "0xc56b0d5bbc2bf9b760ebd797dacd3a683cb8498a"
-
-    var bountyTokensWallet = "0x66ff3b89e15acb0b5e69179a2e54c494b89bdb1b"
-
-    var foundersTokensWallet = "0xe619bcd3c4609ae269b5ebe5bf0cb7d1dc70c210"
-
-    var growthTokensWallet = "0x39ecc9e56979c884b28d8c791890e279ab1ec5f4"
-
-    var advisorsTokensWallet = "0xd1bc33b2c89c93e65b0d476b8b50bfee82594847"
-	
-    const presaleStart = 1512392400
-
-    const mainsaleStart = 1514293200 
-
-    const icoStart = 1514293200
-
-    const basePrice = ether(4000)
- 
-    const softcap = ether(40)
-
-    const day = 60 * 60 * 24
-
-    const week = 7*day
- 
-    const masterWalletK = 0.97
-
-    const secWalletK = new BigNumber(0.01)
-
-    const devWalletK = new BigNumber(0.02)
-
-    const bountyTokensK = new BigNumber(0.05)
-
-    const devTokensK = new BigNumber(0.03)
-
-    const advisorsTokensK = new BigNumber(0.02)
-
-    const secTokensK = new BigNumber(0.005)
-
-    const growthTokensK = new BigNumber(0.30)
-
-    const foundersTokensK = new BigNumber(0.05)
-
-    const summaryTokensK = bountyTokensK.add(devTokensK).add(advisorsTokensK).add(secTokensK).add(growthTokensK).add(foundersTokensK)
-
     var presaleStages = [
-	    {'start': presaleStart, 'discount': 40, 'period': 7, 'invested': 0, 'hardcap': ether(570), 'investors': [
-
-		    {       'address'              : wallets[presaleInvestorsStartIndex    ], 
-			    'invested'             : ether(6), 
-			    'tokens'               : basePrice.mul(10), 
-			    'afterSummaryInvested' : ether(6),
-		            'afterActualInvested'  : ether(6),
-		            'totalSupply'          : basePrice.mul(10)},
-
-	            {       'address'              : wallets[presaleInvestorsStartIndex + 1], 
-			    'invested'             : ether(6), 
-			    'tokens'               : basePrice.mul(10), 
-			    'afterSummaryInvested' : ether(12),
-		            'afterActualInvested'  : ether(6),
-		            'totalSupply'          : basePrice.mul(10).mul(2)}
-
-	    ] }, 
-
-	    {'start': presaleStart + week, 'discount': 30, 'period': 7, 'invested': 0, 'hardcap': ether(1400), 'investors': [
-
-		    {       'address'              : wallets[presaleInvestorsStartIndex + 2], 
-			    'invested'             : ether(7), 
-			    'tokens'               : basePrice.mul(10), 
-			    'afterSummaryInvested' : ether(19),
-		            'afterActualInvested'  : ether(13),
-		            'totalSupply'          : basePrice.mul(10).mul(3)},
-
-	            {       'address'              : wallets[presaleInvestorsStartIndex + 3], 
-			    'invested'             : ether(7), 
-			    'tokens'               : basePrice.mul(10), 
-			    'afterSummaryInvested' : ether(26),
-		            'afterActualInvested'  : ether(13),
-		            'totalSupply'          : basePrice.mul(10).mul(4)}
-
-	    ] }, 
-
-	    {'start': presaleStart + 2*week, 'discount': 20, 'period': 7, 'invested': 0, 'hardcap': ether(2570), 'investors': [
-
-		    {       'address'              : wallets[presaleInvestorsStartIndex + 4], 
-			    'invested'             : ether(8), 
-			    'tokens'               : basePrice.mul(10), 
-			    'afterSummaryInvested' : ether(34),
-		            'afterActualInvested'  : ether(21),
-		            'totalSupply'          : basePrice.mul(10).mul(5)},
-
-	            {       'address'              : wallets[presaleInvestorsStartIndex + 5], 
-			    'invested'             : ether(8), 
-			    'tokens'               : basePrice.mul(10), 
-			    'afterSummaryInvested' : ether(42),
-		            'afterActualInvested'  : ether(21),
-		            'totalSupply'          : basePrice.mul(10).mul(6)}
-
+	    {'start': presaleStart, 'period': 7, 'invested': 0, 'investors': [
+		    { 'address'              : wallets[presaleInvestorsStartIndex    ], 
+			    'invested'             : ether(10), 
+			    'tokens'               : basePresalePrice.mul(10), 
+			    'afterSummaryInvested' : ether(10),
+          'afterActualInvested'  : ether(10),
+          'totalSupply'          : basePresalePrice.mul(10)},
+        { 'address'              : wallets[presaleInvestorsStartIndex + 1], 
+			    'invested'             : ether(10), 
+			    'tokens'               : basePresalePrice.mul(10), 
+			    'afterSummaryInvested' : ether(20),
+          'afterActualInvested'  : ether(10),
+          'totalSupply'          : basePresalePrice.mul(10).mul(2)}
 	    ] }
-
     ]
-
 
     console.log('Presale checks.') 
 	  
     var currentSale = this.presale
     var minInvestedLimit = minInvestedPresale
-    var stages = presaleStages;	  
+    var stages = presaleStages
 
     console.log('Rejects before start.')
     await currentSale.sendTransaction({from: defInvestor, value: defValue}).should.be.rejectedWith(EVMThrow)
-    await currentSale.directMint(defInvestor, defValue, {from: owner}).should.be.rejectedWith(EVMThrow)
 
     console.log('Check min invested limit.') 
-    var minInvestedLimitFromContract = await currentSale.minInvestedLimit()
+    var minInvestedLimitFromContract = await currentSale.minPurchaseLimit()
     minInvestedLimitFromContract.should.be.bignumber.equal(minInvestedLimit)
 
     console.log('Check base price.') 
     var basePriceFromContract = await currentSale.price()
-    basePriceFromContract.should.be.bignumber.equal(basePrice)
+    basePriceFromContract.should.be.bignumber.equal(basePresalePrice)
 
     for(var i = 0; i < stages.length; i++) {
       console.log('Check ' + i + ' stage.')
       let stage = stages[i]
 
-      console.log('Discount ' + stage['discount'] + '%, period ' + stage['period'] + ' days, start ' + stage['start'])
+      console.log('Period ' + stage['period'] + ' days, start ' + stage['start'])
       
-      var stageFromContract = await currentSale.stages(i)
-      stageFromContract[0].should.be.bignumber.equal(stage['period'])
-      stageFromContract[1].should.be.bignumber.equal(stage['hardcap'])
-      stageFromContract[2].should.be.bignumber.equal(stage['discount'])
-
       console.log('Increase time to selected stage.')
       await increaseTimeTo(stage['start'])
 
       console.log('Check current stage.')
-      let stageFromContractIndex = await currentSale.currentStage()
-      stageFromContractIndex.should.be.bignumber.equal(i)
-      stageFromContract = await currentSale.stages(stageFromContractIndex)
-      stageFromContract[0].should.be.bignumber.equal(stage['period'])
-      stageFromContract[1].should.be.bignumber.equal(stage['hardcap'])
-      stageFromContract[2].should.be.bignumber.equal(stage['discount'])
+      const stagePeriod = await currentSale.period()
+      stagePeriod.should.be.bignumber.equal(stage['period'])
 
       var investor = stage['investors'][0]
 
@@ -261,30 +215,30 @@ contract('Crowdsale', function(wallets) {
       var transferredValue = investor['tokens'].mul(transferredK)
       await this.token.transfer(defInvestor, transferredValue, {from: investor['address']}).should.be.rejectedWith(EVMThrow)
 
-      if(i != 2) {	    
-        console.log('Check softcap not achieved.')
-        achieved = await currentSale.softcapAchieved()
-        achieved.should.equal(false)
+      console.log('Check softcap not achieved.')
+      achieved = await currentSale.softcapAchieved()
+      achieved.should.equal(false)
 
-        console.log('Check reject widthraw')
-        await this.presale.widthraw({from: owner}).should.be.rejectedWith(EVMThrow) 
-      }
+      console.log('Check reject widthraw')
+      await this.presale.widthraw({from: owner}).should.be.rejectedWith(EVMThrow) 
 	    
     }
 
     console.log('Jump to widthdraw.')
 
-    console.log('Invest to softcap. Softcap already achieved. This test implemented for future changes.')
-    await this.presale.sendTransaction({from: defInvestor, value: softcap}).should.be.fulfilled
+    console.log('Invest to softcap ' + softcapInETH + ' ETH.')
+    const defInvestorBalance = await web3.eth.getBalance(defInvestor)
+    console.log('Def investor balance ' + defInvestorBalance)
+    await this.presale.sendTransaction({from: defInvestor, value: softcapInETH}).should.be.fulfilled
 
     console.log('Check investor balance.')
-    const softcapMinted = ether(200000)	  
+    const softcapMinted = softcap	  
     var tempInvestorMinted = softcapMinted
     var tempBalanceOf = await this.token.balanceOf(defInvestor)
     tempBalanceOf.should.be.bignumber.equal(tempInvestorMinted)
 
     console.log('Check summary presale minted.')
-    var tempSummaryMinted = stages[2]['investors'][1]['totalSupply'].add(softcapMinted)
+    var tempSummaryMinted = stages[0]['investors'][1]['totalSupply'].add(softcapMinted)
     var tempTotalSupply = await this.token.totalSupply()
     tempTotalSupply.should.be.bignumber.equal(tempSummaryMinted) 
 
@@ -298,12 +252,14 @@ contract('Crowdsale', function(wallets) {
 
     console.log('Check contract balance.')
     var tempCurContractBalance = await web3.eth.getBalance(currentSale.address)
-    tempCurContractBalance.should.be.bignumber.equal(stages[2]['investors'][1]['afterActualInvested'].add(softcap))
+    console.log('Contract balance: ' + tempCurContractBalance)
+    console.log('Expected contract balance: ' + stages[0]['investors'][1]['afterActualInvested'].add(softcapInETH))
+    tempCurContractBalance.should.be.bignumber.equal(stages[0]['investors'][1]['afterActualInvested'].add(softcapInETH))
 
     console.log('Check widthraw works.')
     await this.presale.widthraw().should.be.fulfilled
 
-    console.log('Check master wallet balance.')
+/*    console.log('Check master wallet balance.')
     var curMasterBalance = await web3.eth.getBalance(masterWallet)
     var localMasterBalance = tempCurContractBalance.mul(masterWalletK)
     curMasterBalance.should.be.bignumber.equal(curMasterBalance)
@@ -670,7 +626,7 @@ contract('Crowdsale', function(wallets) {
     ownerTokens.should.be.bignumber.equal(currentTokensOwner)
 
     console.log('Finished!')	  
-
+*/
 
   })
 
