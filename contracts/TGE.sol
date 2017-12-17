@@ -28,7 +28,8 @@ contract TGE is StagedTokenEvent {
   }
 
   function finish() public onlyOwner {
-    uint allTokens = minted.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
+    uint256 totalSupply = token.totalSupply();
+    uint allTokens = totalSupply.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
     uint extraTokens = allTokens.mul(extraTokensPercent).div(PERCENT_RATE);
     mintAndSendTokens(extraTokensWallet, extraTokens);
     token.lock(extraTokensWallet, extraTokensLockPeriod);
