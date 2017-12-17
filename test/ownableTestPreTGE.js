@@ -39,10 +39,6 @@ contract('PreTGE', function(wallets) {
         await this.preTGE.setSoftcap(1, {from: notOwner}).should.be.rejectedWith(EVMThrow)
       })
 
-      it('setDevWallet reject if not owner', async function () {
-        await this.preTGE.setDevWallet(newAddr, {from: notOwner}).should.be.rejectedWith(EVMThrow)
-      })
-
       it('refund reject if not owner', async function () {
         await this.preTGE.refund({from: notOwner}).should.be.rejectedWith(EVMThrow)
       })
@@ -55,8 +51,8 @@ contract('PreTGE', function(wallets) {
         await this.preTGE.widthraw({from: notOwner}).should.be.rejectedWith(EVMThrow)
       })
 
-      it('finishMinting reject if not owner', async function () {
-        await this.preTGE.finishMinting({from: notOwner}).should.be.rejectedWith(EVMThrow)
+      it('finish reject if not owner', async function () {
+        await this.preTGE.finish({from: notOwner}).should.be.rejectedWith(EVMThrow)
       })
 
   })

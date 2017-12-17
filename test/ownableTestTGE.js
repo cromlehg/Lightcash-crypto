@@ -31,8 +31,8 @@ contract('TGE', function(wallets) {
   
   describe('not owner reject tests', function () {
 
-      it('finishMinting reject if not owner', async function () {
-        await this.tGE.finishMinting({from: notOwner}).should.be.rejectedWith(EVMThrow)
+      it('finish reject if not owner', async function () {
+        await this.tGE.finish({from: notOwner}).should.be.rejectedWith(EVMThrow)
       })
 
       it('createTokens reject if not owner', async function () {

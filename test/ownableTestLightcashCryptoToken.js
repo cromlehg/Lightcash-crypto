@@ -12,9 +12,9 @@ const should = require('chai')
   .use(require('chai-bignumber')(BigNumber))
   .should()
 
-const TaskFairToken = artifacts.require('TaskFairToken')
+const TaskFairToken = artifacts.require('LightcashCryptoToken')
 
-contract('TaskFairToken', function(wallets) {
+contract('LightcashCryptoToken', function(wallets) {
 
   const notOwner = wallets[1]
   
