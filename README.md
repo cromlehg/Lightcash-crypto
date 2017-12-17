@@ -181,7 +181,7 @@ https://ropsten.etherscan.io/tx/0xc43dc5fb2dbfe60c75cd6159268bd93ba83a3b29610325
 * 0.1 Ether => 125 tokens, discount = 20%, no referrer, gas = 90186
 https://ropsten.etherscan.io/tx/0xec9ea302e35447f90ec8170411f956772fde92ffafe03f7ccc2dccd946f2dc33
 * 0.1 Ether => 111.111111111111111111 tokens, discount = 10%, gas = 60993
-0x12adf9f61ad9ed2b60e668dd695de78b6e0aa90602f8af71569c6d8b2eb7a74c
+https://ropsten.etherscan.io/tx/0x12adf9f61ad9ed2b60e668dd695de78b6e0aa90602f8af71569c6d8b2eb7a74c
 * 0.8 Ether => 800 tokens + 40 tokens to referrer, no discount, gas = 91264
 https://ropsten.etherscan.io/tx/0x91fe917ff0aeecf715b0065328eb64e4f29a5a396fb81c6452e0007e0da80008
 
