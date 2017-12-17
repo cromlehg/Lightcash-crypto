@@ -9,7 +9,7 @@ contract CommonTokenEvent is Ownable {
 
   using SafeMath for uint;
 
-  uint public constant PERCENT_RATE = 1000;
+  uint public constant PERCENT_RATE = 100;
 
   uint public price;
 
