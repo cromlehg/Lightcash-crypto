@@ -191,3 +191,63 @@ https://ropsten.etherscan.io/tx/0x91fe917ff0aeecf715b0065328eb64e4f29a5a396fb81c
 https://ropsten.etherscan.io/tx/0x81edd8f9428623ad4b7281bcb2ba9f3a52bd7ac27723f164c5b924cf2e9de0ab
 * finish, wrong extendedTokens value, gas = 93981
 https://ropsten.etherscan.io/tx/0x619172522b59be0b0196948f381e64758fbaf4fb008afb1c27dee4e2ed5ec24f
+
+## Ropsten network configuration (test #3 - softcap not reached, but TGE inited)
+
+### Crowdsale stages
+
+#### Pre Token General Event
+* _Price_                      : 1 ETH = 1250 LCC
+* _Minimal insvested limit_    : 0.1 ETH
+* _Softcap_                    : 7 142 857 LCC
+* _Hardcap_                    : 37 500 000 LCC
+* _Start_                      : Dec 19 2017 00:58:15 GMT+0300
+* _Period_                     : 7 days
+* _Contract manager_           : 0x55dd7A6353FC004B4F6Da9855F9403B35f4530B1
+* _Direct mint agent_          : 
+* _ETH Wallet_                 : 0xd89626E2c4218281Ad0Fc5F22AE52dC0FF39DDC4
+
+#### Token General Event
+* _Base price_                 : 1 ETH = 1000 LCC
+* _Minimal insvested limit_    : 0.1 ETH
+* _Hardcap_                    : 500 LCC
+* _Start_                      : Dec 19 2017 00:58:15 GMT+0300
+* _Contract manager_           : 0x55dd7A6353FC004B4F6Da9855F9403B35f4530B1
+* _Direct mint agent_          : 
+* _ETH Wallet_                 : 0xd89626E2c4218281Ad0Fc5F22AE52dC0FF39DDC4
+
+_Milestones_
+1. 10 days                     : discount 20%
+2. 10 days                     : discount 10%
+3. 10 days                     : no discount
+
+#### Links
+* _Token_  - https://ropsten.etherscan.io/address/0x79e12d58dfcb446b170fb202da58512d879a873e
+* _PreTGE_ - https://ropsten.etherscan.io/address/0xe9a0269d9fd1a49510b998e692f9e0865d6a6280
+* _TGE_    - https://ropsten.etherscan.io/address/0xa838ecc1a06bafb91ddb711840d12914d3a8cef0
+
+### Test audit (PreTGE)
+
+#### Purchasers
+* 0.1 Ether => 125 tokens, discount = 20%, no referrer, gas = 132277
+https://ropsten.etherscan.io/tx/0x5a1f2bff6d1ef39eb7f7d6ab60a3fcee1574ef97bfad20e6d94f6e729c2aef7a
+* Rejected refund during the presale, gas = 22202
+https://ropsten.etherscan.io/tx/0x9f99fd27cea7acd14708a4b28e898fcb74fe0f4d58e9591f1f930b5846c38b82
+* Successful refund after presales end (softcap not reached), gas = 21921
+https://ropsten.etherscan.io/tx/0x6decb1ed504e2c92fb322bfacc8bbfad2c2e95853cb45037b0ce5537aadb04fb
+* Rejected refund repeated by the same investor, gas = 22553
+https://ropsten.etherscan.io/tx/0xf57f1f9dc38d3b92e1dab65279447247dcbc78c9a6dd0a29c3a474a25c649f99
+
+#### Service operations
+* finish, gas = 28637
+https://ropsten.etherscan.io/tx/0x71192cbd6242d2d239a274579a019781941acef36b3dd6ade124dd2f6226d6bf
+
+### Test audit (PreTGE)
+
+#### Purchasers
+* 0.5 Ether => 625 tokens, discount = 20%, no referrer, gas = 90312
+https://ropsten.etherscan.io/tx/0x40d8ba1c357469019b8e8c36f0da07389ec80096b62799b9534d01c652a99067
+
+#### Service operations
+* finish, gas = 96654
+https://ropsten.etherscan.io/tx/0xcf5e910c4605ea057d2db27657eb04f23b6ba360864d16bb5202b2f42637a0ce
