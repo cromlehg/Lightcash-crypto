@@ -259,26 +259,16 @@ contract('Crowdsale', function(wallets) {
     console.log('Check widthraw works.')
     await this.presale.widthraw().should.be.fulfilled
 
-/*    console.log('Check master wallet balance.')
-    var curMasterBalance = await web3.eth.getBalance(masterWallet)
-    var localMasterBalance = tempCurContractBalance.mul(masterWalletK)
+    console.log('Check wallet balance.')
+    var curMasterBalance = await web3.eth.getBalance(presaleETHWallet)
+    var localMasterBalance = tempCurContractBalance
     curMasterBalance.should.be.bignumber.equal(curMasterBalance)
-
-    console.log('Check sec wallet balance.')
-    var curSecBalance = await web3.eth.getBalance(secWallet)
-    var localSecBalance = tempCurContractBalance.mul(secWalletK)
-    curSecBalance.should.be.bignumber.equal(curSecBalance)
-
-    console.log('Check dev wallet balance.')
-    var curDevBalance = await web3.eth.getBalance(devWallet)
-    var localDevBalance = tempCurContractBalance.mul(devWalletK)
-    curDevBalance.should.be.bignumber.equal(curDevBalance)
 
     console.log('Check contract zero balance.')
     tempCurContractBalance = await web3.eth.getBalance(currentSale.address)
     tempCurContractBalance.should.be.bignumber.equal(ether(0))
 
-    var saleEnd = presaleStart + 3*week
+    var saleEnd = presaleStart + week
 
     console.log('Increase time to sale end.')
     await increaseTimeTo(saleEnd)
@@ -287,63 +277,27 @@ contract('Crowdsale', function(wallets) {
     await currentSale.sendTransaction({from: defInvestor, value: defValue}).should.be.rejectedWith(EVMThrow)
 
     console.log('Finish current sale.')
-    await currentSale.finishMinting().should.be.fulfilled
+    await currentSale.finish().should.be.fulfilled
 
     console.log('Check rejection after sale finished.')
     await currentSale.sendTransaction({from: defInvestor, value: defValue}).should.be.rejectedWith(EVMThrow)
 
-    console.log('Check extended tokens.')
-    var allTokens = tempSummaryMinted.div((new BigNumber(1)).sub(summaryTokensK))
-
-    console.log('Check bounty tokens.')
-    var bountyTokens = allTokens.mul(bountyTokensK)
-    var bountyTokensFromContract = await this.token.balanceOf(bountyTokensWallet)
-    bountyTokensFromContract.toFixed(0).should.be.bignumber.equal(bountyTokens.toFixed(0))
-
-    console.log('Check dev tokens.')
-    var devTokens = allTokens.mul(devTokensK)
-    var devTokensFromContract = await this.token.balanceOf(devTokensWallet)
-    devTokensFromContract.toFixed(0).should.be.bignumber.equal(devTokens.toFixed(0))
-
-    console.log('Check founders tokens.')
-    var foundersTokens = allTokens.mul(foundersTokensK)
-    var foundersTokensFromContract = await this.token.balanceOf(foundersTokensWallet)
-    foundersTokensFromContract.toFixed(0).should.be.bignumber.equal(foundersTokens.toFixed(0))
-
-    console.log('Check advisors tokens.')
-    var advisorsTokens = allTokens.mul(advisorsTokensK)
-    var advisorsTokensFromContract = await this.token.balanceOf(advisorsTokensWallet)
-    advisorsTokensFromContract.toFixed(0).should.be.bignumber.equal(advisorsTokens.toFixed(0))
-
-    console.log('Check growth tokens.')
-    var growthTokens = allTokens.mul(growthTokensK)
-    var growthTokensFromContract = await this.token.balanceOf(growthTokensWallet)
-    growthTokensFromContract.toFixed(0).should.be.bignumber.equal(growthTokens.toFixed(0))
-
-    console.log('Check sec tokens.')
-    var secTokens = allTokens.mul(secTokensK)
-    var secTokensFromContract = await this.token.balanceOf(secTokensWallet)
-    secTokensFromContract.toFixed(0).should.be.bignumber.equal(secTokens.toFixed(0))
-
-    allTokens = await this.token.totalSupply()
-
+    var allTokens = await this.token.totalSupply()
+/*
     var mainsaleStages = [
 	    {'start': mainsaleStart, 'discount': 20, 'period': 7, 'invested': 0, 'hardcap': ether(2850), 'investors': [
-
-		    {       'address'              : wallets[mainsaleInvestorsStartIndex    ], 
+        { 'address'              : wallets[mainsaleInvestorsStartIndex    ], 
 			    'invested'             : ether(8), 
 			    'tokens'               : basePrice.mul(10), 
 			    'afterSummaryInvested' : ether(8),
-		            'afterActualInvested'  : ether(8),
-		            'totalSupply'          : allTokens.add(basePrice.mul(10))},
-
-	            {       'address'              : wallets[mainsaleInvestorsStartIndex + 1], 
+		      'afterActualInvested'  : ether(8),
+		      'totalSupply'          : allTokens.add(basePrice.mul(10))},
+        { 'address'              : wallets[mainsaleInvestorsStartIndex + 1], 
 			    'invested'             : ether(8), 
 			    'tokens'               : basePrice.mul(10), 
 			    'afterSummaryInvested' : ether(16),
-		            'afterActualInvested'  : ether(8),
-		            'totalSupply'          : allTokens.add(basePrice.mul(10).mul(2))}
-
+		      'afterActualInvested'  : ether(8),
+		      'totalSupply'          : allTokens.add(basePrice.mul(10).mul(2))}
 	    ] }, 
 
 	    {'start': mainsaleStart + week, 'discount': 10, 'period': 7, 'invested': 0, 'hardcap': ether(5700), 'investors': [
