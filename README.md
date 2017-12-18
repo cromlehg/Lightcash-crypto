@@ -192,7 +192,7 @@ https://ropsten.etherscan.io/tx/0x81edd8f9428623ad4b7281bcb2ba9f3a52bd7ac27723f1
 * finish, wrong extendedTokens value, gas = 93981
 https://ropsten.etherscan.io/tx/0x619172522b59be0b0196948f381e64758fbaf4fb008afb1c27dee4e2ed5ec24f
 
-## Ropsten network configuration (test #3 - softcap not reached, but TGE inited)
+## Ropsten network configuration (test #3 - softcap not reached, TGE inited manually)
 
 ### Crowdsale stages
 
