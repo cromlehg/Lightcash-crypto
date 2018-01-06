@@ -21,27 +21,15 @@ contract LightcashCryptoToken is StandardToken, Ownable {
 
   address public saleAgent;
 
-  mapping(address => uint) public locked;
-
   mapping(address => bool) public authorized;
 
   mapping(address => bool)  public registeredCallbacks;
 
-  modifier notLocked() {
-    require(msg.sender == owner || msg.sender == saleAgent || (mintingFinished && now >= locked[msg.sender]));
-    _;
-  }
-
-  function lock(address to, uint periodInDays) public {
-    require((msg.sender == saleAgent || msg.sender == owner) && !mintingFinished);
-    locked[to] = now + periodInDays * 1 days;
-  }
-
-  function transfer(address _to, uint256 _value) public notLocked returns (bool) {
+  function transfer(address _to, uint256 _value) public returns (bool) {
     return processCallback(super.transfer(_to, _value), msg.sender, _to, _value);
   }
 
-  function transferFrom(address from, address to, uint256 value) public notLocked returns (bool) {
+  function transferFrom(address from, address to, uint256 value) public returns (bool) {
     return processCallback(super.transferFrom(from, to, value), from, to, value);
   }
 

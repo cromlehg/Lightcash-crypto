@@ -9,18 +9,12 @@ contract TGE is StagedTokenEvent {
 
   uint public extraTokensPercent;
 
-  uint public extraTokensLockPeriod;
-
   function setExtraTokensWallet(address newExtraTokensWallet) public onlyOwner {
     extraTokensWallet = newExtraTokensWallet;
   }
 
   function setExtraTokensPercent(uint newExtraTokensPercent) public onlyOwner {
     extraTokensPercent = newExtraTokensPercent;
-  }
-
-  function setExtraTokensLockPeriod(uint newExtraTokensLockPeriod) public onlyOwner {
-    extraTokensLockPeriod = newExtraTokensLockPeriod;
   }
 
   function calculateTokens(uint investedInWei) public view returns(uint) {
@@ -32,7 +26,6 @@ contract TGE is StagedTokenEvent {
     uint allTokens = totalSupply.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
     uint extraTokens = allTokens.mul(extraTokensPercent).div(PERCENT_RATE);
     mintAndSendTokens(extraTokensWallet, extraTokens);
-    token.lock(extraTokensWallet, extraTokensLockPeriod);
     token.finishMinting();
   }
 

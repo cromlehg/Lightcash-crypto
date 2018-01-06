@@ -39,7 +39,6 @@ contract Deployer is Ownable {
     tge.addStage(10, 10);
     tge.addStage(10, 0);
     tge.setRefererPercent(5);
-    tge.setExtraTokensLockPeriod(100);
 
     preTGE.setToken(token);
     tge.setToken(token);
