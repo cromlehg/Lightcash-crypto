@@ -22,7 +22,7 @@ contract Deployer is Ownable {
     preTGE.setMinPurchaseLimit(100000000000000000);
     preTGE.setSoftcap(7142857000000000000000000);
     preTGE.setHardcap(37500000000000000000000000);
-    preTGE.setStart(1515416400);
+    preTGE.setStart(1517058000);
     preTGE.setPeriod(7);
     preTGE.setWallet(0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0);
     preTGE.setRefererPercent(5);
@@ -31,7 +31,7 @@ contract Deployer is Ownable {
     tge.setPrice(1000000000000000000000);
     tge.setMinPurchaseLimit(100000000000000000);
     tge.setHardcap(105000000000000000000000000);
-    tge.setStart(1516024800);
+    tge.setStart(1517662800);
     tge.setWallet(0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f);
     tge.setExtraTokensWallet(0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B);
     tge.setExtraTokensPercent(5);

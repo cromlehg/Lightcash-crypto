@@ -63,7 +63,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _Minimal insvested limit_    : 0.1 ETH
 * _Softcap_                    : 7 142 857 LCC
 * _Hardcap_                    : 37 500 000 LCC
-* _Start_                      : Mon, 08 Jan 2018 13:00:00 GMT
+* _Start_                      : Sat, 27 Jan 2018 13:00:00 GMT
 * _Period_                     : 7 days
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          : 
@@ -73,7 +73,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _Base price_                 : 1 ETH = 1000 LCC
 * _Minimal insvested limit_    : 0.1 ETH
 * _Hardcap_                    : 105 000 000 LCC
-* _Start_                      : Mon, 15 Jan 2018 14:00:00 GMT
+* _Start_                      : Sat, 03 Feb 2018 13:00:00 GMT
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          :  
 * _ETH Wallet_                 : 0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f
