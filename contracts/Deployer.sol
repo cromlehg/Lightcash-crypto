@@ -30,7 +30,7 @@ contract Deployer is Ownable {
 
     tge = new TGE();
     tge.setPrice(1000000000000000000000);
-    tge.setMinPurchaseLimit(100000000000000000);
+    tge.setMinPurchaseLimit(10000000000000000);
     tge.setHardcap(126000000000000000000000000);
     tge.setStart(1517835600);
     tge.setWallet(0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f);
@@ -40,7 +40,7 @@ contract Deployer is Ownable {
     tge.addStage(7, 15);
     tge.addStage(7, 10);
     tge.addStage(1000, 5);
-    preTGE.setMaxRefererTokens(10000000000000000000000);
+    tge.setMaxRefererTokens(10000000000000000000000);
     tge.setRefererPercent(10);
 
     preTGE.setToken(token);
