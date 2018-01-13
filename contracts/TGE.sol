@@ -5,28 +5,16 @@ import './StagedTokenEvent.sol';
 
 contract TGE is StagedTokenEvent {
 
-  address public foundersTokensWallet;
+  address public extraTokensWallet;
 
-  address public escrowTokensWallet;
+  uint public extraTokensPercent;
 
-  uint public foundersTokensPercent;
-
-  uint public escrowTokensPercent;
-
-  function setFoundersTokensWallet(address newFoundersTokensWallet) public onlyOwner {
-    foundersTokensWallet = newFoundersTokensWallet;
+  function setExtraTokensWallet(address newExtraTokensWallet) public onlyOwner {
+    extraTokensWallet = newExtraTokensWallet;
   }
 
-  function setEscrowTokensWallet(address newEscrowTokensWallet) public onlyOwner {
-    escrowTokensWallet = newEscrowTokensWallet;
-  }
-
-  function setFoundersTokensPercent(uint newFoundersTokensPercent) public onlyOwner {
-    foundersTokensPercent = newFoundersTokensPercent;
-  }
-
-  function setEscrowTokensPercent(uint newEscrowTokensPercent) public onlyOwner {
-    escrowTokensPercent = newEscrowTokensPercent;
+  function setExtraTokensPercent(uint newExtraTokensPercent) public onlyOwner {
+    extraTokensPercent = newExtraTokensPercent;
   }
 
   function calculateTokens(uint investedInWei) public view returns(uint) {
@@ -35,13 +23,9 @@ contract TGE is StagedTokenEvent {
 
   function finish() public onlyOwner {
     uint256 totalSupply = token.totalSupply();
-    uint extraTokensPercent = foundersTokensPercent.add(escrowTokensPercent);
     uint allTokens = totalSupply.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
-    uint foundersTokens = allTokens.mul(foundersTokensPercent).div(PERCENT_RATE);
-    uint escrowTokens = allTokens.mul(escrowTokensPercent).div(PERCENT_RATE);
-    mintAndSendTokens(foundersTokensWallet, foundersTokens);
-    mintAndSendTokens(escrowTokensWallet, escrowTokens);
-    //token.finishMinting();
+    uint extraTokens = allTokens.mul(extraTokensPercent).div(PERCENT_RATE);
+    mintAndSendTokens(extraTokensWallet, extraTokens);
   }
 
   function createTokens() public payable canMint {

@@ -27,6 +27,8 @@ contract CommonTokenEvent is Ownable {
 
   uint public refererPercent;
 
+  uint public maxRefererTokens;
+
   address public directMintAgent;
 
   address public wallet;
@@ -48,6 +50,9 @@ contract CommonTokenEvent is Ownable {
       address referer = bytesToAddres(bytes(msg.data));
       require(referer != address(token) && referer != msg.sender);
       uint refererTokens = tokens.mul(refererPercent).div(PERCENT_RATE);
+      if(refererTokens > maxRefererTokens) { 
+        refererTokens = maxRefererTokens;
+      }
       mintAndSendTokens(referer, refererTokens);
     }
   }
@@ -60,6 +65,10 @@ contract CommonTokenEvent is Ownable {
       mul = mul*256;
     }
     return address(result);
+  }
+
+  function setMaxRefereTokens(uint newMaxRefererTokens) public onlyOwner {
+    maxRefererTokens = newMaxRefererTokens;
   }
 
   function setHardcap(uint newHardcap) public onlyOwner {

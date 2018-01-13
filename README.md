@@ -49,8 +49,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 
 ## Main network configuration
 
-* _Escrow tokens_              : 5% 
-* _Founders tokens_            : 10% 
+* _Extra tokens percent        : 15% 
 * _Extra tokens wallet_        : 0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B
 
 #### Links
@@ -62,9 +61,9 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _Price_                      : 1 ETH = 1250 LCSH
 * _Minimal insvested limit_    : 0.1 ETH
 * _Softcap_                    : 7 142 857 LCSH
-* _Hardcap_                    : 75 000 000 LCSH
+* _Hardcap_                    : 52 500 000 LCSH
 * _Start_                      : Mon, 29 Jan 2018 13:00:00 GMT
-* _Period_                     : 7 days
+* _Period_                     : 11 days
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          : 
 * _ETH Wallet_                 : 0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0
@@ -72,7 +71,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 #### Token Generation Event
 * _Base price_                 : 1 ETH = 1000 LCSH
 * _Minimal insvested limit_    : 0.1 ETH
-* _Hardcap_                    : 180 000 000 LCSH
+* _Hardcap_                    : 126 000 000 LCSH
 * _Start_                      : Mon, 05 Feb 2018 13:00:00 GMT
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          :  
@@ -82,8 +81,7 @@ _Milestones_
 1. 7 days                     : discount 20%
 2. 7 days                     : discount 15%
 2. 7 days                     : discount 10%
-2. 7 days                     : discount 5%
-3. 10 days                     : no discount
+2. 3 years                    : discount 5%
 
 ## Ropsten network configuration (test #1 - softcap reached)
 
