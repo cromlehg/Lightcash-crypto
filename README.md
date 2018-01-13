@@ -49,7 +49,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 
 ## Main network configuration
 
-* _Extra tokens percent        : 15% 
+* _Extra tokens percent_       : 15% 
 * _Extra tokens wallet_        : 0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B
 
 #### Links
