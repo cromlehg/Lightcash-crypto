@@ -22,11 +22,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "truffle test",
-    "flatten": "npm run flatten-deployer && npm run flatten-token && npm run flatten-pretge && npm run flatten-tge",
-    "flatten-deployer": "./node_modules/.bin/truffle-flattener ./contracts/Deployer.sol > ./deploy/Deployer.sol",
-    "flatten-token": "./node_modules/.bin/truffle-flattener ./contracts/LightcashCryptoToken.sol > ./deploy/LightcashCryptoToken.sol",
-    "flatten-pretge": "./node_modules/.bin/truffle-flattener ./contracts/PreTGE.sol > ./deploy/PreTGE.sol",
-    "flatten-tge": "./node_modules/.bin/truffle-flattener ./contracts/TGE.sol > ./deploy/TGE.sol"
+    "flatten": "./node_modules/.bin/truffle-flattener ./contracts/Deployer.sol > ./deploy/contracts.sol"
   },
   "repository": {
     "type": "git",
