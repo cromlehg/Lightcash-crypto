@@ -18,7 +18,7 @@ contract Deployer is Ownable {
     token = new LightcashCryptoToken();
 
     preTGE = new PreTGE();
-    preTGE.setPrice(1250000000000000000000);
+    preTGE.setPrice(7143000000000000000000);
     preTGE.setMinPurchaseLimit(100000000000000000);
     preTGE.setSoftcap(7142857000000000000000000);
     preTGE.setHardcap(52500000000000000000000000);
@@ -29,7 +29,7 @@ contract Deployer is Ownable {
     preTGE.setRefererPercent(10);
 
     tge = new TGE();
-    tge.setPrice(1000000000000000000000);
+    tge.setPrice(5000000000000000000000);
     tge.setMinPurchaseLimit(10000000000000000);
     tge.setHardcap(126000000000000000000000000);
     tge.setStart(1517835600);
