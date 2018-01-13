@@ -58,7 +58,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _TGE_ - 
 
 #### Pre Token Generation Event
-* _Price_                      : 1 ETH = 1250 LCSH
+* _Price_                      : 1 ETH = 7143 LCSH
 * _Minimal insvested limit_    : 0.1 ETH
 * _Softcap_                    : 7 142 857 LCSH
 * _Hardcap_                    : 52 500 000 LCSH
@@ -69,8 +69,8 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _ETH Wallet_                 : 0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0
 
 #### Token Generation Event
-* _Base price_                 : 1 ETH = 1000 LCSH
-* _Minimal insvested limit_    : 0.1 ETH
+* _Base price_                 : 1 ETH = 5000 LCSH
+* _Minimal insvested limit_    : 0.01 ETH
 * _Hardcap_                    : 126 000 000 LCSH
 * _Start_                      : Mon, 05 Feb 2018 13:00:00 GMT
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
