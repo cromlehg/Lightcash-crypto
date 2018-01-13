@@ -21,7 +21,7 @@ contract Deployer is Ownable {
     preTGE.setPrice(1250000000000000000000);
     preTGE.setMinPurchaseLimit(100000000000000000);
     preTGE.setSoftcap(7142857000000000000000000);
-    preTGE.setHardcap(37500000000000000000000000);
+    preTGE.setHardcap(75000000000000000000000000);
     preTGE.setStart(1517230800);
     preTGE.setPeriod(7);
     preTGE.setWallet(0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0);
@@ -30,14 +30,17 @@ contract Deployer is Ownable {
     tge = new TGE();
     tge.setPrice(1000000000000000000000);
     tge.setMinPurchaseLimit(100000000000000000);
-    tge.setHardcap(105000000000000000000000000);
+    tge.setHardcap(180000000000000000000000000);
     tge.setStart(1517835600);
     tge.setWallet(0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f);
-    tge.setExtraTokensWallet(0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B);
-    tge.setExtraTokensPercent(5);
-    tge.addStage(10, 20);
-    tge.addStage(10, 10);
-    tge.addStage(10, 0);
+    tge.setEscrowTokensWallet(...);
+    tge.setFoundersTokensWallet(0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B);
+    tge.setEscrowTokensPercent(5);
+    tge.setFoundersPercent(10);
+    tge.addStage(7, 20);
+    tge.addStage(7, 15);
+    tge.addStage(7, 10);
+    tge.addStage(7, 5);
     tge.setRefererPercent(5);
 
     preTGE.setToken(token);

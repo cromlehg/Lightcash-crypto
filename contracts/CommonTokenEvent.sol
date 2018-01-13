@@ -102,6 +102,10 @@ contract CommonTokenEvent is Ownable {
     calculateAndTransferTokens(to, investedWei);
   }
 
+  function directMintTokens(address to, uint count) public onlyDirectMintAgentOrOwner {
+    mintAndSendTokens(to, count);
+  }
+
   function mintAndSendTokens(address to, uint amount) internal {
     token.mint(to, amount);
     minted = minted.add(amount);

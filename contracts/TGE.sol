@@ -5,16 +5,28 @@ import './StagedTokenEvent.sol';
 
 contract TGE is StagedTokenEvent {
 
-  address public extraTokensWallet;
+  address public foundersTokensWallet;
 
-  uint public extraTokensPercent;
+  address public escrowTokensWallet;
 
-  function setExtraTokensWallet(address newExtraTokensWallet) public onlyOwner {
-    extraTokensWallet = newExtraTokensWallet;
+  uint public foundersTokensPercent;
+
+  uint public escrowTokensPercent;
+
+  function setFoundersTokensWallet(address newFoundersTokensWallet) public onlyOwner {
+    foundersTokensWallet = newFoundersTokensWallet;
   }
 
-  function setExtraTokensPercent(uint newExtraTokensPercent) public onlyOwner {
-    extraTokensPercent = newExtraTokensPercent;
+  function setEscrowTokensWallet(address newEscrowTokensWallet) public onlyOwner {
+    escrowTokensWallet = newEscrowTokensWallet;
+  }
+
+  function setFoundersTokensPercent(uint newFoundersTokensPercent) public onlyOwner {
+    foundersTokensPercent = newFoundersTokensPercent;
+  }
+
+  function setEscrowTokensPercent(uint newEscrowTokensPercent) public onlyOwner {
+    escrowTokensPercent = newEscrowTokensPercent;
   }
 
   function calculateTokens(uint investedInWei) public view returns(uint) {
@@ -23,10 +35,13 @@ contract TGE is StagedTokenEvent {
 
   function finish() public onlyOwner {
     uint256 totalSupply = token.totalSupply();
+    uint extraTokensPercent = foundersTokensPercent.add(escrowTokensPercent);
     uint allTokens = totalSupply.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
-    uint extraTokens = allTokens.mul(extraTokensPercent).div(PERCENT_RATE);
-    mintAndSendTokens(extraTokensWallet, extraTokens);
-    token.finishMinting();
+    uint foundersTokens = allTokens.mul(foundersTokensPercent).div(PERCENT_RATE);
+    uint escrowTokens = allTokens.mul(escrowTokensPercent).div(PERCENT_RATE);
+    mintAndSendTokens(foundersTokensWallet, foundersTokens);
+    mintAndSendTokens(escrowTokensWallet, escrowTokens);
+    //token.finishMinting();
   }
 
   function createTokens() public payable canMint {
