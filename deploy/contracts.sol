@@ -617,6 +617,8 @@ contract TGE is StagedTokenEvent {
 
   uint public extraTokensPercent;
 
+  bool public finished = false;
+
   function setExtraTokensWallet(address newExtraTokensWallet) public onlyOwner {
     extraTokensWallet = newExtraTokensWallet;
   }
@@ -630,6 +632,8 @@ contract TGE is StagedTokenEvent {
   }
 
   function finish() public onlyOwner {
+    require(!finished);
+    finished = true;
     uint256 totalSupply = token.totalSupply();
     uint allTokens = totalSupply.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
     uint extraTokens = allTokens.mul(extraTokensPercent).div(PERCENT_RATE);
@@ -637,6 +641,7 @@ contract TGE is StagedTokenEvent {
   }
 
   function createTokens() public payable canMint {
+    require(!finished);
     wallet.transfer(msg.value);
     calculateAndTransferTokensWithReferrer(msg.sender, msg.value);
   }
