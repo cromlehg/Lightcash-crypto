@@ -251,3 +251,80 @@ https://ropsten.etherscan.io/tx/0x40d8ba1c357469019b8e8c36f0da07389ec80096b62799
 #### Service operations
 * finish, gas = 96654
 https://ropsten.etherscan.io/tx/0xcf5e910c4605ea057d2db27657eb04f23b6ba360864d16bb5202b2f42637a0ce
+
+## Ropsten network configuration (test #3)
+
+* _Extra tokens percent_       : 15% 
+* _Extra tokens wallet_        : 0xf8b4Da46E85e43c47EBbF73ac8C6746fE3d3f111
+
+#### Links
+* _Token_ - 
+* _PreTGE_ - 
+* _TGE_ - 
+
+#### Pre Token Generation Event
+* _Price_                      : 1 ETH = 7143 LCSH
+* _Minimal insvested limit_    : 0.1 ETH
+* _Softcap_                    : 7 142 857 LCSH
+* _Hardcap_                    : 52 500 000 LCSH
+* _Start_                      : Mon, 29 Jan 2018 13:00:00 GMT
+* _Period_                     : 11 days
+* _Contract manager_           : 0x55dd7A6353FC004B4F6Da9855F9403B35f4530B1
+* _Direct mint agent_          : 
+* _ETH Wallet_                 : 0xd89626E2c4218281Ad0Fc5F22AE52dC0FF39DDC4
+
+#### Token Generation Event
+* _Base price_                 : 1 ETH = 5000 LCSH
+* _Minimal insvested limit_    : 0.01 ETH
+* _Hardcap_                    : 126 000 000 LCSH
+* _Start_                      : Mon, 05 Feb 2018 13:00:00 GMT
+* _Contract manager_           : 0x55dd7A6353FC004B4F6Da9855F9403B35f4530B1
+* _Direct mint agent_          :  
+* _ETH Wallet_                 : 0xd89626E2c4218281Ad0Fc5F22AE52dC0FF39DDC4
+
+_Milestones_
+1. 7 days                     : discount 20%
+2. 7 days                     : discount 15%
+2. 7 days                     : discount 10%
+2. 3 years                    : discount 5%
+
+### Test audit (PreTGE)
+
+#### Purchasers
+* transfer 0.05 LCSH during PreTGE, gas = 37590
+https://ropsten.etherscan.io/tx/0xbfa92cbaa77af9ba8b5de112e368e9b599b8f7b142c999cbe40bea10702b5b5a
+* 0.1 Eth => 714.3 LCSH, gas = 103512
+https://ropsten.etherscan.io/tx/0x04554dc1bc1fd7818de4e34162ad67fa48fddc18b40d56d35c13cde5ae461965
+* 1 Eth => 7143 LCSH + 714.3 LCSH to referrer, gas = 87086
+https://ropsten.etherscan.io/tx/0x3afb0b7048efac1e212de17d54c324a06c3846c8b19897c4c60a7825231d8c5c
+* 2 Eth => 14286 LCSH + 1000 LCSH to referrer (10 times less for testing purposes), gas = 87291
+https://ropsten.etherscan.io/tx/0xa74a9fc9ccb41cb98347dc09b4882e41503abfc7937397fa7553ce284d5735e3
+
+#### Service operations
+* setStart, gas = 27998
+https://ropsten.etherscan.io/tx/0xcc627fb469109a6a471f5bc67c6973535df1e6c56407c86a52e58c7074d9e35f
+* directMintTokens (0.1 LCSH), gas = 91696
+https://ropsten.etherscan.io/tx/0x1ee6245bb54e7434dd99437f511346e6d9e1f8bf4083cd4c553b24e5e0e72c47
+* setMaxReferrerTokens, gas = 27838
+https://ropsten.etherscan.io/tx/0x392ff72e6c7e0dba0624159b54195b6761c9557163eb36b9df049f2275197e7d
+* setSoftcap, gas = 27440
+https://ropsten.etherscan.io/tx/0xd7f76d8e8cc40061f342eced5dde6f769a60809c53d09d0e7ae54eb913045a71
+* finish, gas = 39218
+https://ropsten.etherscan.io/tx/0x6900df68f8930f3f6cc6b5a0ba3ca99f4054ab1709d43853c3a39b0406af5777
+
+### Test audit (TGE)
+
+#### Purchasers
+* 0.1 Eth => 625 LCSH + 62.5 LCSH to referrer (discount = 25%)
+https://ropsten.etherscan.io/tx/0xdfde4e085155ede90639fe3cc49134b6aa04825ff6935bb3d3e70213308acf58
+* transfer, gas = 22654
+https://ropsten.etherscan.io/tx/0x8c63533460b92359c9bf09c375792e6e09329d32258887ce19b6c31fd2aa4ebd
+#### Service operations
+* setStart, gas = 28042
+https://ropsten.etherscan.io/tx/0x79c900d90a96f414980bcb9f6581218259cc98b739d506ed84d5297f10a58203
+* finish =>  4457.576470588235294117 LCSH (15%) to extra tokens wallet, gas = 63715
+https://ropsten.etherscan.io/tx/0x097e6dbf35b499dcddb7bde761290818bce488fc681f7973710ace79aa01ecd1
+* directMintTokens (1 LCSH) after TGE's end , gas = 46387
+https://ropsten.etherscan.io/tx/0xb5ea65bb51191c55f0121e9c396bedfd40777f2522820848394a9220eb4f34fc
+* directMint (1 wei => 0.00000000000000625 LCSH) after TGE's end, gas = 53897
+https://ropsten.etherscan.io/tx/0x444d0bf3e2d5a6245276b1c20312f1648af8e043ff8b4bf33af9c72d5631d4fe
