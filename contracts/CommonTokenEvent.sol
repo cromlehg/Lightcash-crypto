@@ -25,9 +25,9 @@ contract CommonTokenEvent is Ownable {
 
   uint public invested;
 
-  uint public refererPercent;
+  uint public referrerPercent;
 
-  uint public maxRefererTokens;
+  uint public maxReferrerTokens;
 
   address public directMintAgent;
 
@@ -45,15 +45,15 @@ contract CommonTokenEvent is Ownable {
     _;
   }
 
-  function sendRefererTokens(uint tokens) internal {
+  function sendReferrerTokens(uint tokens) internal {
     if (msg.data.length == 20) {
-      address referer = bytesToAddres(bytes(msg.data));
-      require(referer != address(token) && referer != msg.sender);
-      uint refererTokens = tokens.mul(refererPercent).div(PERCENT_RATE);
-      if(refererTokens > maxRefererTokens) { 
-        refererTokens = maxRefererTokens;
+      address referrer = bytesToAddres(bytes(msg.data));
+      require(referrer != address(token) && referrer != msg.sender);
+      uint referrerTokens = tokens.mul(referrerPercent).div(PERCENT_RATE);
+      if(referrerTokens > maxReferrerTokens) {
+        referrerTokens = maxReferrerTokens;
       }
-      mintAndSendTokens(referer, refererTokens);
+      mintAndSendTokens(referrer, referrerTokens);
     }
   }
 
@@ -67,8 +67,8 @@ contract CommonTokenEvent is Ownable {
     return address(result);
   }
 
-  function setMaxRefereTokens(uint newMaxRefererTokens) public onlyOwner {
-    maxRefererTokens = newMaxRefererTokens;
+  function setMaxReferrerTokens(uint newMaxReferrerTokens) public onlyOwner {
+    maxReferrerTokens = newMaxReferrerTokens;
   }
 
   function setHardcap(uint newHardcap) public onlyOwner {
@@ -79,8 +79,8 @@ contract CommonTokenEvent is Ownable {
     token = LightcashCryptoToken(newToken);
   }
 
-  function setRefererPercent(uint newRefererPercent) public onlyOwner {
-    refererPercent = newRefererPercent;
+  function setReferrerPercent(uint newReferrerPercent) public onlyOwner {
+    referrerPercent = newReferrerPercent;
   }
 
   function setStart(uint newStart) public onlyOwner {
@@ -127,9 +127,9 @@ contract CommonTokenEvent is Ownable {
     return tokens;
   }
 
-  function calculateAndTransferTokensWithReferer(address to, uint investedInWei) internal {
+  function calculateAndTransferTokensWithReferrer(address to, uint investedInWei) internal {
     uint tokens = calculateAndTransferTokens(to, investedInWei);
-    sendRefererTokens(tokens);
+    sendReferrerTokens(tokens);
   }
 
   function calculateTokens(uint investedInWei) public view returns(uint);

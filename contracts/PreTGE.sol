@@ -52,7 +52,7 @@ contract PreTGE is CommonTokenEvent {
 
   function createTokens() public payable canMint {
     balances[msg.sender] = balances[msg.sender].add(msg.value);
-    super.calculateAndTransferTokensWithReferer(msg.sender, msg.value);
+    super.calculateAndTransferTokensWithReferrer(msg.sender, msg.value);
     if (!softcapAchieved && minted >= softcap) {
       softcapAchieved = true;
       SoftcapReached();

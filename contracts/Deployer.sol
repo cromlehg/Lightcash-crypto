@@ -25,8 +25,8 @@ contract Deployer is Ownable {
     preTGE.setStart(1517230800);
     preTGE.setPeriod(11);
     preTGE.setWallet(0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0);
-    preTGE.setMaxRefererTokens(10000000000000000000000);
-    preTGE.setRefererPercent(10);
+    preTGE.setMaxReferrerTokens(10000000000000000000000);
+    preTGE.setReferrerPercent(10);
 
     tge = new TGE();
     tge.setPrice(5000000000000000000000);
@@ -40,8 +40,8 @@ contract Deployer is Ownable {
     tge.addStage(7, 15);
     tge.addStage(7, 10);
     tge.addStage(1000, 5);
-    tge.setMaxRefererTokens(10000000000000000000000);
-    tge.setRefererPercent(10);
+    tge.setMaxReferrerTokens(10000000000000000000000);
+    tge.setReferrerPercent(10);
 
     preTGE.setToken(token);
     tge.setToken(token);

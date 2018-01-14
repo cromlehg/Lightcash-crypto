@@ -30,7 +30,7 @@ contract TGE is StagedTokenEvent {
 
   function createTokens() public payable canMint {
     wallet.transfer(msg.value);
-    calculateAndTransferTokensWithReferer(msg.sender, msg.value);
+    calculateAndTransferTokensWithReferrer(msg.sender, msg.value);
   }
 
 }
