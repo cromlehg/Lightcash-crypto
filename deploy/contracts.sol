@@ -245,7 +245,7 @@ contract LightcashCryptoToken is StandardToken, Ownable {
 
   string public constant name = 'Lightcash crypto';
 
-  string public constant symbol = 'LCC';
+  string public constant symbol = 'LCSH';
 
   uint32 public constant decimals = 18;
 
@@ -328,7 +328,9 @@ contract CommonTokenEvent is Ownable {
 
   uint public invested;
 
-  uint public refererPercent;
+  uint public referrerPercent;
+
+  uint public maxReferrerTokens;
 
   address public directMintAgent;
 
@@ -346,12 +348,15 @@ contract CommonTokenEvent is Ownable {
     _;
   }
 
-  function sendRefererTokens(uint tokens) internal {
+  function sendReferrerTokens(uint tokens) internal {
     if (msg.data.length == 20) {
-      address referer = bytesToAddres(bytes(msg.data));
-      require(referer != address(token) && referer != msg.sender);
-      uint refererTokens = tokens.mul(refererPercent).div(PERCENT_RATE);
-      mintAndSendTokens(referer, refererTokens);
+      address referrer = bytesToAddres(bytes(msg.data));
+      require(referrer != address(token) && referrer != msg.sender);
+      uint referrerTokens = tokens.mul(referrerPercent).div(PERCENT_RATE);
+      if(referrerTokens > maxReferrerTokens) {
+        referrerTokens = maxReferrerTokens;
+      }
+      mintAndSendTokens(referrer, referrerTokens);
     }
   }
 
@@ -365,6 +370,10 @@ contract CommonTokenEvent is Ownable {
     return address(result);
   }
 
+  function setMaxReferrerTokens(uint newMaxReferrerTokens) public onlyOwner {
+    maxReferrerTokens = newMaxReferrerTokens;
+  }
+
   function setHardcap(uint newHardcap) public onlyOwner {
     hardcap = newHardcap;
   }
@@ -373,8 +382,8 @@ contract CommonTokenEvent is Ownable {
     token = LightcashCryptoToken(newToken);
   }
 
-  function setRefererPercent(uint newRefererPercent) public onlyOwner {
-    refererPercent = newRefererPercent;
+  function setReferrerPercent(uint newReferrerPercent) public onlyOwner {
+    referrerPercent = newReferrerPercent;
   }
 
   function setStart(uint newStart) public onlyOwner {
@@ -405,6 +414,10 @@ contract CommonTokenEvent is Ownable {
     calculateAndTransferTokens(to, investedWei);
   }
 
+  function directMintTokens(address to, uint count) public onlyDirectMintAgentOrOwner {
+    mintAndSendTokens(to, count);
+  }
+
   function mintAndSendTokens(address to, uint amount) internal {
     token.mint(to, amount);
     minted = minted.add(amount);
@@ -417,9 +430,9 @@ contract CommonTokenEvent is Ownable {
     return tokens;
   }
 
-  function calculateAndTransferTokensWithReferer(address to, uint investedInWei) internal {
+  function calculateAndTransferTokensWithReferrer(address to, uint investedInWei) internal {
     uint tokens = calculateAndTransferTokens(to, investedInWei);
-    sendRefererTokens(tokens);
+    sendReferrerTokens(tokens);
   }
 
   function calculateTokens(uint investedInWei) public view returns(uint);
@@ -488,7 +501,7 @@ contract PreTGE is CommonTokenEvent {
 
   function createTokens() public payable canMint {
     balances[msg.sender] = balances[msg.sender].add(msg.value);
-    super.calculateAndTransferTokensWithReferer(msg.sender, msg.value);
+    super.calculateAndTransferTokensWithReferrer(msg.sender, msg.value);
     if (!softcapAchieved && minted >= softcap) {
       softcapAchieved = true;
       SoftcapReached();
@@ -621,12 +634,11 @@ contract TGE is StagedTokenEvent {
     uint allTokens = totalSupply.mul(PERCENT_RATE).div(PERCENT_RATE.sub(extraTokensPercent));
     uint extraTokens = allTokens.mul(extraTokensPercent).div(PERCENT_RATE);
     mintAndSendTokens(extraTokensWallet, extraTokens);
-    token.finishMinting();
   }
 
   function createTokens() public payable canMint {
     wallet.transfer(msg.value);
-    calculateAndTransferTokensWithReferer(msg.sender, msg.value);
+    calculateAndTransferTokensWithReferrer(msg.sender, msg.value);
   }
 
 }
@@ -645,27 +657,30 @@ contract Deployer is Ownable {
     token = new LightcashCryptoToken();
 
     preTGE = new PreTGE();
-    preTGE.setPrice(1250000000000000000000);
+    preTGE.setPrice(7143000000000000000000);
     preTGE.setMinPurchaseLimit(100000000000000000);
     preTGE.setSoftcap(7142857000000000000000000);
-    preTGE.setHardcap(37500000000000000000000000);
+    preTGE.setHardcap(52500000000000000000000000);
     preTGE.setStart(1517230800);
-    preTGE.setPeriod(7);
+    preTGE.setPeriod(11);
     preTGE.setWallet(0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0);
-    preTGE.setRefererPercent(5);
+    preTGE.setMaxReferrerTokens(10000000000000000000000);
+    preTGE.setReferrerPercent(10);
 
     tge = new TGE();
-    tge.setPrice(1000000000000000000000);
-    tge.setMinPurchaseLimit(100000000000000000);
-    tge.setHardcap(105000000000000000000000000);
+    tge.setPrice(5000000000000000000000);
+    tge.setMinPurchaseLimit(10000000000000000);
+    tge.setHardcap(126000000000000000000000000);
     tge.setStart(1517835600);
     tge.setWallet(0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f);
     tge.setExtraTokensWallet(0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B);
-    tge.setExtraTokensPercent(5);
-    tge.addStage(10, 20);
-    tge.addStage(10, 10);
-    tge.addStage(10, 0);
-    tge.setRefererPercent(5);
+    tge.setExtraTokensPercent(15);
+    tge.addStage(7, 20);
+    tge.addStage(7, 15);
+    tge.addStage(7, 10);
+    tge.addStage(1000, 5);
+    tge.setMaxReferrerTokens(10000000000000000000000);
+    tge.setReferrerPercent(10);
 
     preTGE.setToken(token);
     tge.setToken(token);
