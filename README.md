@@ -53,9 +53,9 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _Extra tokens wallet_        : 0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B
 
 #### Links
-* _Token_ - 
-* _PreTGE_ - 
-* _TGE_ - 
+* _Token_ - https://etherscan.io/token/0xb6ca384a32dae401a3682139968d1da2f5e98de2
+* _PreTGE_ - https://etherscan.io/address/0x13bb437ceb28d37cf1a1f711112d9b111f0a11cb 
+* _TGE_ - https://etherscan.io/address/0x2212efd06e557aea1bbbbcabe5ebb747194a9523#code
 
 #### Pre Token Generation Event
 * _Price_                      : 1 ETH = 7143 LCSH
