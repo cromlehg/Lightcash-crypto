@@ -1,4 +1,4 @@
-![Lightcash crypto](logo.png "Lightcash crypto")
+![Lightcash crypto](logo.svg "Lightcash crypto")
 
 * _Standart_        : ERC20
 * _Name_            : Lightcash crypto
