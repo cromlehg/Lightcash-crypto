@@ -10,10 +10,11 @@
 * _Tokens locked_   : Yes
 
 ## Social links
-### Facebook - https://www.facebook.com/Lightcash-Blockchain-System-Corp-186597301891722
-### Twitter - https://twitter.com/Lightcash_token
+### Facebook - https://www.facebook.com/lightcashblockchain/
+### Twitter - https://twitter.com/LcshBlockchain
 ### Reddit - https://www.reddit.com/user/Lightcash_blockchain
-### Telegram - http://t.me/lightcashvwallet
+### Telegram - https://t.me/lightcashchat
+### Telegram - https://t.me/joinchat/CvEPYElAFjXBv5XgNwCuQQ
 ### Medium - https://medium.com/@mail_58026
 ### Instagram - https://www.instagram.com/lightcash_wallet/
 
@@ -62,7 +63,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _Minimal insvested limit_    : 0.1 ETH
 * _Softcap_                    : 7 142 857 LCSH
 * _Hardcap_                    : 52 500 000 LCSH
-* _Start_                      : Mon, 29 Jan 2018 13:00:00 GMT
+* _Start_                      : Fri Feb 02 2018 13:00:00 GMT
 * _Period_                     : 11 days
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          : 
@@ -72,7 +73,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _Base price_                 : 1 ETH = 5000 LCSH
 * _Minimal insvested limit_    : 0.01 ETH
 * _Hardcap_                    : 126 000 000 LCSH
-* _Start_                      : Mon, 05 Feb 2018 13:00:00 GMT
+* _Start_                      : Tue Feb 13 2018 13:00:00 GMT
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          :  
 * _ETH Wallet_                 : 0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f
