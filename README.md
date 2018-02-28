@@ -56,10 +56,10 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _TGE_ - https://etherscan.io/address/0x2212efd06e557aea1bbbbcabe5ebb747194a9523#code
 
 #### Pre Token Generation Event
-* _Price_                      : 1 ETH = 7143 LCSH
+* _Price_                      : 1 ETH = 7143 LCCT
 * _Minimal insvested limit_    : 0.1 ETH
-* _Softcap_                    : 7 000 000 LCSH
-* _Hardcap_                    : 52 500 000 LCSH
+* _Softcap_                    : 7 000 000 LCCT
+* _Hardcap_                    : 52 500 000 LCCT
 * _Start_                      : Fri, 02 Mar 2018 13:00:00 GMT
 * _Period_                     : 11 days
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
@@ -67,9 +67,9 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 * _ETH Wallet_                 : 0xDFDCAc0c9Eb45C63Bcff91220A48684882F1DAd0
 
 #### Token Generation Event
-* _Base price_                 : 1 ETH = 5000 LCSH
+* _Base price_                 : 1 ETH = 5000 LCCT
 * _Minimal insvested limit_    : 0.01 ETH
-* _Hardcap_                    : 126 000 000 LCSH
+* _Hardcap_                    : 126 000 000 LCCT
 * _Start_                      : Mon, 12 Mar 2018 13:00:00 GMT
 * _Contract manager_           : 0xF51E0a3a17990D41C5f1Ff1d0D772b26E4D6B6d0
 * _Direct mint agent_          :  
