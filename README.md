@@ -58,7 +58,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 #### Pre Token Generation Event
 * _Price_                      : 1 ETH = 7143 LCSH
 * _Minimal insvested limit_    : 0.1 ETH
-* _Softcap_                    : 6 629 235 LCSH
+* _Softcap_                    : 7 000 000 LCSH
 * _Hardcap_                    : 52 500 000 LCSH
 * _Start_                      : Fri, 02 Mar 2018 13:00:00 GMT
 * _Period_                     : 11 days
