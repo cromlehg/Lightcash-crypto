@@ -13,7 +13,7 @@ contract LightcashCryptoToken is StandardToken, Ownable {
 
   string public constant name = 'Lightcash crypto';
 
-  string public constant symbol = 'LCSH';
+  string public constant symbol = 'LCCT';
 
   uint32 public constant decimals = 18;
 
