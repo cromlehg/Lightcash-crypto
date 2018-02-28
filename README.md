@@ -12,9 +12,8 @@
 ## Social links
 ### Facebook - https://www.facebook.com/lightcashblockchain/
 ### Twitter - https://twitter.com/LcshBlockchain
-### Telegram - https://t.me/lightcashchat
-### Telegram - https://t.me/joinchat/CvEPYElAFjXBv5XgNwCuQQ
-### Medium - https://medium.com/@mail_58026
+### Telegram - https://t.me/lightcashblockcahin
+### Medium - https://medium.com/lightcash
 
 ## Smart-contracts description
 
@@ -59,7 +58,7 @@ Investor must not use other wallets, coinmarkets or stocks. Can lose money.
 #### Pre Token Generation Event
 * _Price_                      : 1 ETH = 7143 LCSH
 * _Minimal insvested limit_    : 0.1 ETH
-* _Softcap_                    : 7 142 857 LCSH
+* _Softcap_                    : 6 629 235 LCSH
 * _Hardcap_                    : 52 500 000 LCSH
 * _Start_                      : Fri, 02 Mar 2018 13:00:00 GMT
 * _Period_                     : 11 days
