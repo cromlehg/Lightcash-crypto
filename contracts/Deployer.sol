@@ -31,7 +31,7 @@ contract Deployer is Ownable {
     tge = new TGE();
     tge.setPrice(5000000000000000000000); // 5 000 LCCT
     tge.setMinPurchaseLimit(10000000000000000); // 0.01 ETH
-    tge.setHardcap(126000000 000000000000000000); // 126 000 000 LCCT
+    tge.setHardcap(126000000000000000000000000); // 126 000 000 LCCT
     tge.setStart(1520859600); // Mar 12 2018 16:00:00 GMT+0300
     tge.setWallet(0x3aC45b49A4D3CB35022fd8122Fd865cd1B47932f);
     tge.setExtraTokensWallet(0xF0e830148F3d1C4656770DAa282Fda6FAAA0Fe0B);
